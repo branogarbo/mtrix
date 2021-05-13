@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/branogarbo/matm/cmd"
+import "github.com/branogarbo/mtrix/cmd"
 
 func main() {
 	cmd.Execute()

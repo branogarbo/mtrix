@@ -1,4 +1,4 @@
-module github.com/branogarbo/matm
+module github.com/branogarbo/mtrix
 
 go 1.16
 
