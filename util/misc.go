@@ -1,6 +1,6 @@
 package util
 
-func IsMatrixComplete(m Matrix) bool {
+func IsMatrixValid(m Matrix) bool {
 	var matLength int
 
 	for _, row := range m.Value {
@@ -9,9 +9,13 @@ func IsMatrixComplete(m Matrix) bool {
 		}
 	}
 
-	return m.Width*m.Height == matLength
+	return (m.RowsNum*m.ColsNum == matLength) && (m.RowsNum == len(m.Value))
 }
 
 func IsMultPossible(m1, m2 Matrix) bool {
-	return m1.Height == m2.Width
+	return m1.RowsNum == m2.ColsNum
+}
+
+func GetMatrixFromFile(path string) Matrix {
+	return Matrix{} //for now
 }

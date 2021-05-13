@@ -15,10 +15,12 @@ limitations under the License.
 */
 package util
 
-type MatrixValue [][]int
+type Row []int
+
+type MatrixValue []Row
 
 type Matrix struct {
-	Width  int
-	Height int
-	Value  MatrixValue
+	RowsNum int
+	ColsNum int
+	Value   MatrixValue
 }
