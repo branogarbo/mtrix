@@ -1,5 +1,11 @@
 package util
 
+import (
+	"os"
+	"strconv"
+	"strings"
+)
+
 func IsMatrixValid(m Matrix) bool {
 	var matLength int
 
@@ -13,9 +19,36 @@ func IsMatrixValid(m Matrix) bool {
 }
 
 func IsMultPossible(m1, m2 Matrix) bool {
-	return m1.RowsNum == m2.ColsNum
+	return m1.ColsNum == m2.RowsNum
 }
 
-func GetMatrixFromFile(path string) Matrix {
-	return Matrix{} //for now
+func GetMatrixFromFile(path string) (Matrix, error) {
+	fileBytes, err := os.ReadFile(path)
+	if err != nil {
+		return Matrix{}, nil
+	}
+
+	var (
+		fileStr = string(fileBytes)
+		rowStrs = strings.Split(fileStr, "\n")
+		matrix  = Matrix{}
+	)
+
+	for _, rowStr := range rowStrs {
+		elStrs := strings.Split(rowStr, " ")
+		row := Row{}
+
+		for _, elStr := range elStrs {
+			elFloat, err := strconv.ParseFloat(elStr, 64)
+			if err != nil {
+				return Matrix{}, nil
+			}
+
+			row = append(row, elFloat)
+		}
+
+		matrix.Value = append(matrix.Value, row)
+	}
+
+	return matrix, nil
 }

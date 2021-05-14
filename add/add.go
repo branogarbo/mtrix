@@ -14,13 +14,3 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 package util
-
-type Row []float64
-
-type MatrixValue []Row
-
-type Matrix struct {
-	RowsNum int
-	ColsNum int
-	Value   MatrixValue
-}
