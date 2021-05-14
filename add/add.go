@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package util
+package add
 
 import u "github.com/branogarbo/mtrix/util"
 
@@ -25,10 +25,6 @@ func Add(mats ...u.Matrix) (u.Matrix, error) {
 		argMvs    []u.MatrixValue
 	)
 
-	err = u.CheckMats(mats...)
-	if err != nil {
-		return u.Matrix{}, err
-	}
 	err = u.CheckMatsSizes(mats...)
 	if err != nil {
 		return u.Matrix{}, err
@@ -38,7 +34,7 @@ func Add(mats ...u.Matrix) (u.Matrix, error) {
 		argMvs = append(argMvs, mat.Value)
 	}
 
-	newMatVal = u.PopulateNewMat(argMvs[0], func(mv u.MatrixValue, r, c int, secMvs ...u.MatrixValue) float64 {
+	newMatVal = u.PopulateNewMatVal(argMvs[0], func(mv u.MatrixValue, r, c int, secMvs ...u.MatrixValue) float64 {
 		elSum := mv[r][c]
 
 		for _, secMv := range secMvs {

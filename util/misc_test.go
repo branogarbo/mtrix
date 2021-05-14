@@ -5,43 +5,6 @@ import (
 	"testing"
 )
 
-func TestGetMatrixFromFile(t *testing.T) {
-	type args struct {
-		path string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		want    Matrix
-		wantErr bool
-	}{
-		{
-			name: "parse matrix file test",
-			args: args{path: "./testMatrix.txt"},
-			want: Matrix{
-				Value: MatrixValue{
-					{1, 2, -3.9},
-					{4.3, 5, 6},
-					{5, -3, 4},
-				},
-			},
-			wantErr: false,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := GetMatrixFromFile(tt.args.path)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GetMatrixFromFile() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GetMatrixFromFile() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
 func TestIsMultPossible(t *testing.T) {
 	type args struct {
 		m1 Matrix
@@ -229,7 +192,7 @@ func TestCheckMatsSizes(t *testing.T) {
 	}
 }
 
-func TestPopulateNewMat(t *testing.T) {
+func TestPopulateNewMatVal(t *testing.T) {
 	type args struct {
 		mv     MatrixValue
 		action func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64
@@ -270,8 +233,60 @@ func TestPopulateNewMat(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := PopulateNewMat(tt.args.mv, tt.args.action, tt.args.secMvs...); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("PopulateNewMat() = %v, want %v", got, tt.want)
+			if got := PopulateNewMatVal(tt.args.mv, tt.args.action, tt.args.secMvs...); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("PopulateNewMatVal() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGetMatsFromFiles(t *testing.T) {
+	type args struct {
+		paths []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    []Matrix
+		wantErr bool
+	}{
+		{
+			name: "parse matrix files test",
+			args: args{
+				paths: []string{"../sampleMats/mat1.txt", "../sampleMats/mat2.txt"},
+			},
+			want: []Matrix{
+				{
+					RowsNum: 3,
+					ColsNum: 3,
+					Value: MatrixValue{
+						{1, 2, -3.9},
+						{4.3, 5, 6},
+						{5, -3, 4},
+					},
+				},
+				{
+					RowsNum: 3,
+					ColsNum: 3,
+					Value: MatrixValue{
+						{2, 2, 2},
+						{2, 2, 2},
+						{2, 2, 2},
+					},
+				},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := GetMatsFromFiles(tt.args.paths...)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetMatsFromFiles() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetMatsFromFiles() = %v, want %v", got, tt.want)
 			}
 		})
 	}

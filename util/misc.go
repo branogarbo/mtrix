@@ -23,10 +23,10 @@ func IsMultPossible(m1, m2 Matrix) bool {
 	return m1.ColsNum == m2.RowsNum
 }
 
-func GetMatrixFromFile(path string) (Matrix, error) {
+func GetMatFromFile(path string) (Matrix, error) {
 	fileBytes, err := os.ReadFile(path)
 	if err != nil {
-		return Matrix{}, nil
+		return Matrix{}, err
 	}
 
 	var (
@@ -42,7 +42,7 @@ func GetMatrixFromFile(path string) (Matrix, error) {
 		for _, elStr := range elStrs {
 			elFloat, err := strconv.ParseFloat(elStr, 64)
 			if err != nil {
-				return Matrix{}, nil
+				return Matrix{}, err
 			}
 
 			row = append(row, elFloat)
@@ -51,7 +51,31 @@ func GetMatrixFromFile(path string) (Matrix, error) {
 		matrix.Value = append(matrix.Value, row)
 	}
 
+	matrix.RowsNum = len(matrix.Value)
+	matrix.ColsNum = len(matrix.Value[0])
+
+	err = CheckMats(matrix)
+	if err != nil {
+		return Matrix{}, err
+	}
+
 	return matrix, nil
+}
+
+func GetMatsFromFiles(paths ...string) ([]Matrix, error) {
+	var mats []Matrix
+
+	// use goroutines?
+	for _, path := range paths {
+		mat, err := GetMatFromFile(path)
+		if err != nil {
+			return nil, err
+		}
+
+		mats = append(mats, mat)
+	}
+
+	return mats, nil
 }
 
 func CheckMats(mats ...Matrix) error {
@@ -78,7 +102,7 @@ func CheckMatsSizes(mats ...Matrix) error {
 	return nil
 }
 
-func PopulateNewMat(mv MatrixValue, action func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64, secMvs ...MatrixValue) MatrixValue {
+func PopulateNewMatVal(mv MatrixValue, action func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64, secMvs ...MatrixValue) MatrixValue {
 	resultMatVal := MatrixValue{}
 
 	for r, row := range mv {
