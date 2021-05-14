@@ -16,13 +16,13 @@ func TestGetMatrixFromFile(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "parse test",
+			name: "parse matrix file test",
 			args: args{path: "./testMatrix.txt"},
 			want: Matrix{
 				Value: MatrixValue{
-					Row{1, 2, 3},
-					Row{4, 5, 6},
-					Row{5, -3, 4},
+					{1, 2, -3.9},
+					{4.3, 5, 6},
+					{5, -3, 4},
 				},
 			},
 			wantErr: false,
@@ -59,17 +59,17 @@ func TestIsMultPossible(t *testing.T) {
 					RowsNum: 3,
 					ColsNum: 3,
 					Value: MatrixValue{
-						Row{1, 1, 1},
-						Row{1, 1, 1},
-						Row{1, 1, 1},
+						{1, 1, 1},
+						{1, 1, 1},
+						{1, 1, 1},
 					},
 				},
 				m2: Matrix{
 					RowsNum: 2,
 					ColsNum: 3,
 					Value: MatrixValue{
-						Row{1, 1, 1},
-						Row{1, 1, 1},
+						{1, 1, 1},
+						{1, 1, 1},
 					},
 				},
 			},
@@ -82,18 +82,18 @@ func TestIsMultPossible(t *testing.T) {
 					RowsNum: 3,
 					ColsNum: 3,
 					Value: MatrixValue{
-						Row{1, 1, 1},
-						Row{1, 1, 1},
-						Row{1, 1, 1},
+						{1, 1, 1},
+						{1, 1, 1},
+						{1, 1, 1},
 					},
 				},
 				m2: Matrix{
 					RowsNum: 3,
 					ColsNum: 4,
 					Value: MatrixValue{
-						Row{1, 1, 1, 1},
-						Row{1, 1, 1, 1},
-						Row{1, 1, 1, 1},
+						{1, 1, 1, 1},
+						{1, 1, 1, 1},
+						{1, 1, 1, 1},
 					},
 				},
 			},
@@ -125,9 +125,9 @@ func TestIsMatrixValid(t *testing.T) {
 					RowsNum: 3,
 					ColsNum: 4,
 					Value: MatrixValue{
-						Row{1, 1, 1, 1},
-						Row{1, 1, 1, 1},
-						Row{1, 1, 1},
+						{1, 1, 1, 1},
+						{1, 1, 1, 1},
+						{1, 1, 1},
 					},
 				},
 			},
@@ -140,9 +140,9 @@ func TestIsMatrixValid(t *testing.T) {
 					RowsNum: 3,
 					ColsNum: 4,
 					Value: MatrixValue{
-						Row{1, 1, 1, 1},
-						Row{1, 1, 1, 1},
-						Row{1, 1, 1, 1},
+						{1, 1, 1, 1},
+						{1, 1, 1, 1},
+						{1, 1, 1, 1},
 					},
 				},
 			},
