@@ -157,3 +157,122 @@ func TestIsMatrixValid(t *testing.T) {
 		})
 	}
 }
+
+func TestCheckMatsSizes(t *testing.T) {
+	type args struct {
+		mats []Matrix
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "no error",
+			args: args{
+				mats: []Matrix{
+					{
+						RowsNum: 3,
+						ColsNum: 4,
+					},
+					{
+						RowsNum: 3,
+						ColsNum: 4,
+					},
+					{
+						RowsNum: 3,
+						ColsNum: 4,
+					},
+				},
+			},
+			wantErr: false,
+		},
+		{
+			name: "error",
+			args: args{
+				mats: []Matrix{
+					{
+						RowsNum: 1,
+						ColsNum: 3,
+					},
+					{
+						RowsNum: 5,
+						ColsNum: 4,
+					},
+					{
+						RowsNum: 3,
+						ColsNum: 7,
+					},
+				},
+			},
+			wantErr: true,
+		},
+		{
+			name: "invalid args",
+			args: args{
+				mats: []Matrix{
+					{
+						RowsNum: 1,
+						ColsNum: 3,
+					},
+				},
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := CheckMatsSizes(tt.args.mats...); (err != nil) != tt.wantErr {
+				t.Errorf("CheckMatsSizes() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestPopulateNewMat(t *testing.T) {
+	type args struct {
+		mv     MatrixValue
+		action func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64
+		secMvs []MatrixValue
+	}
+	tests := []struct {
+		name string
+		args args
+		want MatrixValue
+	}{
+		{
+			name: "add 1",
+			args: args{
+				mv: MatrixValue{
+					{1, 2, 4},
+					{1, 3, 1},
+					{3, 3, 3},
+				},
+				action: func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64 {
+					secMv := secMvs[0]
+
+					return mv[r][c] + secMv[r][c]
+				},
+				secMvs: []MatrixValue{
+					{
+						{1, 1, 1},
+						{1, 1, 1},
+						{1, 1, 1},
+					},
+				},
+			},
+			want: MatrixValue{
+				{2, 3, 5},
+				{2, 4, 2},
+				{4, 4, 4},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := PopulateNewMat(tt.args.mv, tt.args.action, tt.args.secMvs...); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("PopulateNewMat() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
