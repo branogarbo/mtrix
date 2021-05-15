@@ -14,3 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 package mult
+
+import u "github.com/branogarbo/mtrix/util"
+
+func ScalarMult(s float64, mat u.Matrix) u.Matrix {
+	return u.PopulateNewMat(mat, func(mv u.MatrixValue, r, c int, secMvs ...u.MatrixValue) float64 {
+		return mv[r][c] * s
+	})
+}
+
+func MatMult(mats ...u.Matrix) u.Matrix {
+	return u.Matrix{} // for now
+}

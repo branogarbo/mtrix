@@ -2,6 +2,7 @@ package util
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -115,4 +116,48 @@ func PopulateNewMatVal(mv MatrixValue, action func(mv MatrixValue, r, c int, sec
 	}
 
 	return resultMatVal
+}
+
+func PopulateNewMat(mat Matrix, action func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64, secMats ...Matrix) Matrix {
+	var (
+		resultMat Matrix
+		newMatVal MatrixValue
+		argMvs    []MatrixValue
+	)
+
+	argMvs = append(argMvs, mat.Value)
+
+	for _, m := range secMats {
+		argMvs = append(argMvs, m.Value)
+	}
+
+	// newMatVal = PopulateNewMatVal(argMvs[0], func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64 {
+	// 	return action(mv, r, c, secMats...)
+	// }, argMvs[1:]...)
+
+	for r, row := range mat.Value {
+		newMatVal = append(newMatVal, Row{})
+		for c := range row {
+			newEl := action(mat.Value, r, c, argMvs[1:]...)
+
+			newMatVal[r] = append(newMatVal[r], newEl)
+		}
+	}
+
+	resultMat = Matrix{
+		RowsNum: len(newMatVal),
+		ColsNum: len(newMatVal[0]),
+		Value:   newMatVal,
+	}
+
+	return resultMat
+}
+
+func PrintMat(mat Matrix) {
+	for _, row := range mat.Value {
+		for _, el := range row {
+			fmt.Printf("%v ", el)
+		}
+		fmt.Print("\n")
+	}
 }

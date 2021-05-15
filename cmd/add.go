@@ -21,21 +21,17 @@ var addCmd = &cobra.Command{
 			return
 		}
 
-		resultMat, err := add.Add(mats...)
+		resultMat, err := add.MatAdd(mats...)
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
 
-		for _, row := range resultMat.Value {
-			for _, el := range row {
-				fmt.Printf("%v ", el)
-			}
-			fmt.Print("\n")
-		}
+		util.PrintMat(resultMat)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(addCmd)
+
 }
