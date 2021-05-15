@@ -12,7 +12,7 @@ var transCmd = &cobra.Command{
 	Use:     "trans",
 	Aliases: []string{"*"},
 	Example: "mtrix trans mat.txt",
-	Short:   "Get the transpose of a matrix.",
+	Short:   "Get the transpose of a matrix",
 	Args:    cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		mat, err := util.GetMatFromFile(args[0])

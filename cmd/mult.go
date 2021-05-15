@@ -12,7 +12,7 @@ var multCmd = &cobra.Command{
 	Use:     "mult",
 	Aliases: []string{"*"},
 	Example: "mtrix mult mat1.txt mat2.txt",
-	Short:   "Multiply two matrices together.",
+	Short:   "Multiply two matrices together",
 	Args:    cobra.ExactArgs(2), //cobra.MinimumNArgs(2) later
 	Run: func(cmd *cobra.Command, args []string) {
 		mats, err := util.GetMatsFromFiles(args...)
