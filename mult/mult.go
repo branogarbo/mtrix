@@ -1,21 +1,10 @@
-/*
-Copyright © 2021 Brian Longmore brianl.ext@gmail.com
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
 package mult
 
-import u "github.com/branogarbo/mtrix/util"
+import (
+	"errors"
+
+	u "github.com/branogarbo/mtrix/util"
+)
 
 func ScalarMult(s float64, mat u.Matrix) u.Matrix {
 	return u.PopulateNewMat(mat, func(mv u.MatrixValue, r, c int, secMvs ...u.MatrixValue) float64 {
@@ -23,6 +12,28 @@ func ScalarMult(s float64, mat u.Matrix) u.Matrix {
 	})
 }
 
-func MatMult(mats ...u.Matrix) u.Matrix {
-	return u.Matrix{} // for now
+func MatMult(m1, m2 u.Matrix) (u.Matrix, error) {
+	if !u.IsMultPossible(m1, m2) {
+		return u.Matrix{}, errors.New("matrix multiplication not possible")
+	}
+
+	resultMat := u.PopulateNewMat(m1, func(mv1 u.MatrixValue, r, c int, secMvs ...u.MatrixValue) float64 {
+		var (
+			newEl   float64
+			m1ElRow = m1.Value[r]
+			m2ElCol []float64
+		)
+
+		for _, row := range m2.Value {
+			m2ElCol = append(m2ElCol, row[c])
+		}
+
+		for i := 0; i < m1.ColsNum; i++ {
+			newEl += m1ElRow[i] * m2ElCol[i]
+		}
+
+		return newEl
+	})
+
+	return resultMat, nil
 }

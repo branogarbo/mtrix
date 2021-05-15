@@ -11,8 +11,8 @@ import (
 
 var smultCmd = &cobra.Command{
 	Use:     "smult",
-	Aliases: []string{"sm"},
-	Example: "mtrix smult 2 mat2.txt",
+	Aliases: []string{"sm", "mults"},
+	Example: "mtrix smult 2 mat.txt",
 	Short:   "Multiply a matrix by a scalar.",
 	Args:    cobra.ExactArgs(2), //cobra.MinimumNArgs(2) later
 	Run: func(cmd *cobra.Command, args []string) {

@@ -1,3 +1,18 @@
+/*
+Copyright © 2021 Brian Longmore brianl.ext@gmail.com
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 package util
 
 import (
@@ -155,12 +170,16 @@ func TestCheckMatsSizes(t *testing.T) {
 			args: args{
 				mats: []Matrix{
 					{
-						RowsNum: 1,
+						RowsNum: 3,
 						ColsNum: 3,
 					},
 					{
-						RowsNum: 5,
-						ColsNum: 4,
+						RowsNum: 2,
+						ColsNum: 2,
+					},
+					{
+						RowsNum: 2,
+						ColsNum: 2,
 					},
 					{
 						RowsNum: 3,
@@ -192,54 +211,6 @@ func TestCheckMatsSizes(t *testing.T) {
 	}
 }
 
-func TestPopulateNewMatVal(t *testing.T) {
-	type args struct {
-		mv     MatrixValue
-		action func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64
-		secMvs []MatrixValue
-	}
-	tests := []struct {
-		name string
-		args args
-		want MatrixValue
-	}{
-		{
-			name: "add 1",
-			args: args{
-				mv: MatrixValue{
-					{1, 2, 4},
-					{1, 3, 1},
-					{3, 3, 3},
-				},
-				action: func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64 {
-					secMv := secMvs[0]
-
-					return mv[r][c] + secMv[r][c]
-				},
-				secMvs: []MatrixValue{
-					{
-						{1, 1, 1},
-						{1, 1, 1},
-						{1, 1, 1},
-					},
-				},
-			},
-			want: MatrixValue{
-				{2, 3, 5},
-				{2, 4, 2},
-				{4, 4, 4},
-			},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := PopulateNewMatVal(tt.args.mv, tt.args.action, tt.args.secMvs...); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("PopulateNewMatVal() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
 func TestGetMatsFromFiles(t *testing.T) {
 	type args struct {
 		paths []string
@@ -253,16 +224,15 @@ func TestGetMatsFromFiles(t *testing.T) {
 		{
 			name: "parse matrix files test",
 			args: args{
-				paths: []string{"../sampleMats/mat1.txt", "../sampleMats/mat2.txt"},
+				paths: []string{"../sampleMats/2square1.txt", "../sampleMats/3square2.txt", "../sampleMats/2x3_1.txt"},
 			},
 			want: []Matrix{
 				{
-					RowsNum: 3,
-					ColsNum: 3,
+					RowsNum: 2,
+					ColsNum: 2,
 					Value: MatrixValue{
-						{1, 2, -3.9},
-						{4.3, 5, 6},
-						{5, -3, 4},
+						{1, 2},
+						{3, -5},
 					},
 				},
 				{
@@ -272,6 +242,14 @@ func TestGetMatsFromFiles(t *testing.T) {
 						{2, 2, 2},
 						{2, 2, 2},
 						{2, 2, 2},
+					},
+				},
+				{
+					RowsNum: 2,
+					ColsNum: 3,
+					Value: MatrixValue{
+						{2, 3, 4},
+						{-1, 4, 3},
 					},
 				},
 			},
@@ -287,6 +265,66 @@ func TestGetMatsFromFiles(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GetMatsFromFiles() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestPopulateNewMat(t *testing.T) {
+	type args struct {
+		mat     Matrix
+		action  func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64
+		secMats []Matrix
+	}
+	tests := []struct {
+		name string
+		args args
+		want Matrix
+	}{
+		{
+			name: "add 1 to each el",
+			args: args{
+				mat: Matrix{
+					RowsNum: 3,
+					ColsNum: 3,
+					Value: MatrixValue{
+						{2, 2, 2},
+						{2, 2, 2},
+						{2, 2, 2},
+					},
+				},
+				action: func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64 {
+					secMv := secMvs[0]
+
+					return mv[r][c] + secMv[r][c]
+				},
+				secMats: []Matrix{
+					{
+						RowsNum: 3,
+						ColsNum: 3,
+						Value: MatrixValue{
+							{1, 1, 1},
+							{1, 1, 1},
+							{1, 1, 1},
+						},
+					},
+				},
+			},
+			want: Matrix{
+				RowsNum: 3,
+				ColsNum: 3,
+				Value: MatrixValue{
+					{3, 3, 3},
+					{3, 3, 3},
+					{3, 3, 3},
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := PopulateNewMat(tt.args.mat, tt.args.action, tt.args.secMats...); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("PopulateNewMat() = %v, want %v", got, tt.want)
 			}
 		})
 	}

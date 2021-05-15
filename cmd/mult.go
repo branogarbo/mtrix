@@ -21,7 +21,11 @@ var multCmd = &cobra.Command{
 			return
 		}
 
-		resultMat := mult.MatMult(mats...)
+		resultMat, err := mult.MatMult(mats[0], mats[1])
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 
 		util.PrintMat(resultMat)
 	},

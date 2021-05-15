@@ -12,7 +12,7 @@ var subCmd = &cobra.Command{
 	Use:     "sub",
 	Aliases: []string{"-"},
 	Example: "mtrix sub mat1.txt mat2.txt",
-	Short:   "Get the difference between two matrices.",
+	Short:   "Get the difference of two matrices.",
 	Args:    cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
 		mats, err := util.GetMatsFromFiles(args...)

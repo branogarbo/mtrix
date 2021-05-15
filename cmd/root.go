@@ -22,14 +22,8 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "mtrix",
 	Short: "A tool for performing basic matrix operations.",
-	// Run: func(cmd *cobra.Command, args []string) {
-
-	// },
 }
 
 func Execute() {
 	cobra.CheckErr(rootCmd.Execute())
-}
-
-func init() {
 }

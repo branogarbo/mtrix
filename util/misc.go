@@ -94,28 +94,13 @@ func CheckMatsSizes(mats ...Matrix) error {
 		return errors.New("2 or more matrices must be passed")
 	}
 
-	for i := 1; i < len(mats)-1; i++ {
+	for i := 1; i < len(mats); i++ {
 		if !((mats[i].RowsNum == mats[i-1].RowsNum) && (mats[i].ColsNum == mats[i-1].ColsNum)) {
 			return errors.New("matrices are not the same size")
 		}
 	}
 
 	return nil
-}
-
-func PopulateNewMatVal(mv MatrixValue, action func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64, secMvs ...MatrixValue) MatrixValue {
-	resultMatVal := MatrixValue{}
-
-	for r, row := range mv {
-		resultMatVal = append(resultMatVal, Row{})
-		for c := range row {
-			newEl := action(mv, r, c, secMvs...)
-
-			resultMatVal[r] = append(resultMatVal[r], newEl)
-		}
-	}
-
-	return resultMatVal
 }
 
 func PopulateNewMat(mat Matrix, action func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64, secMats ...Matrix) Matrix {
@@ -130,10 +115,6 @@ func PopulateNewMat(mat Matrix, action func(mv MatrixValue, r, c int, secMvs ...
 	for _, m := range secMats {
 		argMvs = append(argMvs, m.Value)
 	}
-
-	// newMatVal = PopulateNewMatVal(argMvs[0], func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64 {
-	// 	return action(mv, r, c, secMats...)
-	// }, argMvs[1:]...)
 
 	for r, row := range mat.Value {
 		newMatVal = append(newMatVal, Row{})
