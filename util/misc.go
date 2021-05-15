@@ -31,7 +31,7 @@ func GetMatFromFile(path string) (Matrix, error) {
 	}
 
 	var (
-		fileStr = string(fileBytes)
+		fileStr = strings.TrimSpace(string(fileBytes))
 		rowStrs = strings.Split(fileStr, "\n")
 		matrix  = Matrix{}
 	)
