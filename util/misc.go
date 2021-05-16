@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// IsMatrixValid checks if m is missing any elements.
 func IsMatrixValid(m Matrix) bool {
 	var matLength int
 
@@ -20,10 +21,12 @@ func IsMatrixValid(m Matrix) bool {
 	return (m.RowsNum*m.ColsNum == matLength) && (m.RowsNum == len(m.Value))
 }
 
+// IsMultPossible checks if multiplication between m1 and m2 is possible.
 func IsMultPossible(m1, m2 Matrix) bool {
 	return m1.ColsNum == m2.RowsNum
 }
 
+// GetMatFromFile returns a matrix from a matrix file.
 func GetMatFromFile(path string) (Matrix, error) {
 	fileBytes, err := os.ReadFile(path)
 	if err != nil {
@@ -63,6 +66,7 @@ func GetMatFromFile(path string) (Matrix, error) {
 	return matrix, nil
 }
 
+// GetMatsFromFiles returns a slice of matrices from their matrix files.
 func GetMatsFromFiles(paths ...string) ([]Matrix, error) {
 	var mats []Matrix
 
@@ -79,6 +83,7 @@ func GetMatsFromFiles(paths ...string) ([]Matrix, error) {
 	return mats, nil
 }
 
+// CheckMats checks if any mats are missing elements.
 func CheckMats(mats ...Matrix) error {
 	for _, m := range mats {
 		if !IsMatrixValid(m) {
@@ -89,7 +94,8 @@ func CheckMats(mats ...Matrix) error {
 	return nil
 }
 
-func CheckMatsSizes(mats ...Matrix) error {
+// CheckMatSizes checks if all mats are the same size.
+func CheckMatSizes(mats ...Matrix) error {
 	if len(mats) <= 1 {
 		return errors.New("2 or more matrices must be passed")
 	}
@@ -103,7 +109,8 @@ func CheckMatsSizes(mats ...Matrix) error {
 	return nil
 }
 
-// mat Matrix, newRows, newCols int, action func(mv MatVal, r, c int, secMvs ...MatVal) float64, secMats ...Matrix
+// PopulateNewMat creates and fills a new matrix according to the action
+// performed on each element of the passed matrices and configurations.
 func PopulateNewMat(c MatPopConfig) Matrix {
 	var (
 		argMvs    []MatVal
@@ -134,6 +141,8 @@ func PrintMat(mat Matrix) {
 	}
 }
 
+// InitMat creates a zero matrix with the passed size. Main purpose
+// is to init matrix that can later be populated with PopulateNewMat.
 func InitMat(rows, cols int) Matrix {
 	resultMat := Matrix{
 		RowsNum: rows,

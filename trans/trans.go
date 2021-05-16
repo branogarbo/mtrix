@@ -2,6 +2,7 @@ package trans
 
 import u "github.com/branogarbo/mtrix/util"
 
+// MatTrans returns the transpose of mat.
 func MatTrans(mat u.Matrix) u.Matrix {
 	MPconf := u.MatPopConfig{
 		MainMat: mat,

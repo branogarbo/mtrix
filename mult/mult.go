@@ -6,6 +6,7 @@ import (
 	u "github.com/branogarbo/mtrix/util"
 )
 
+// ScalarMult multiplies the matrix mat by the scalar s.
 func ScalarMult(s float64, mat u.Matrix) u.Matrix {
 	MPconf := u.MatPopConfig{
 		MainMat: mat,
@@ -19,6 +20,7 @@ func ScalarMult(s float64, mat u.Matrix) u.Matrix {
 	return u.PopulateNewMat(MPconf)
 }
 
+// MatMult multiplies two matrices together.
 func MatMult(m1, m2 u.Matrix) (u.Matrix, error) {
 	if !u.IsMultPossible(m1, m2) {
 		return u.Matrix{}, errors.New("matrix multiplication not possible")

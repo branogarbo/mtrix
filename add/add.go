@@ -1,14 +1,23 @@
 package add
 
-import u "github.com/branogarbo/mtrix/util"
+import (
+	"errors"
 
+	u "github.com/branogarbo/mtrix/util"
+)
+
+// MatAdd adds matrices together.
 func MatAdd(mats ...u.Matrix) (u.Matrix, error) {
 	var (
 		resultMat u.Matrix
 		err       error
 	)
 
-	err = u.CheckMatsSizes(mats...)
+	if len(mats) < 2 {
+		return u.Matrix{}, errors.New("less than 2 args passed")
+	}
+
+	err = u.CheckMatSizes(mats...)
 	if err != nil {
 		return u.Matrix{}, err
 	}

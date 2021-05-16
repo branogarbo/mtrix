@@ -6,6 +6,7 @@ import (
 	u "github.com/branogarbo/mtrix/util"
 )
 
+// MatSub subtracts m2 from m1.
 func MatSub(m1, m2 u.Matrix) (u.Matrix, error) {
 	negM2 := mult.ScalarMult(-1, m2)
 
