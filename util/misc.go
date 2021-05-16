@@ -103,32 +103,23 @@ func CheckMatsSizes(mats ...Matrix) error {
 	return nil
 }
 
-func PopulateNewMat(mat Matrix, action func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64, secMats ...Matrix) Matrix {
+// mat Matrix, newRows, newCols int, action func(mv MatVal, r, c int, secMvs ...MatVal) float64, secMats ...Matrix
+func PopulateNewMat(c MatPopConfig) Matrix {
 	var (
-		resultMat Matrix
-		newMatVal MatrixValue
-		argMvs    []MatrixValue
+		argMvs    []MatVal
+		resultMat = InitMat(c.NewRows, c.NewCols)
 	)
 
-	argMvs = append(argMvs, mat.Value)
+	argMvs = append(argMvs, c.MainMat.Value)
 
-	for _, m := range secMats {
+	for _, m := range c.SecMats {
 		argMvs = append(argMvs, m.Value)
 	}
 
-	for r, row := range mat.Value {
-		newMatVal = append(newMatVal, Row{})
-		for c := range row {
-			newEl := action(mat.Value, r, c, argMvs[1:]...)
-
-			newMatVal[r] = append(newMatVal[r], newEl)
+	for rn, row := range resultMat.Value {
+		for cn := range row {
+			resultMat.Value[rn][cn] = c.Action(c.MainMat.Value, rn, cn, argMvs[1:])
 		}
-	}
-
-	resultMat = Matrix{
-		RowsNum: len(newMatVal),
-		ColsNum: len(newMatVal[0]),
-		Value:   newMatVal,
 	}
 
 	return resultMat
@@ -141,4 +132,21 @@ func PrintMat(mat Matrix) {
 		}
 		fmt.Print("\n")
 	}
+}
+
+func InitMat(rows, cols int) Matrix {
+	resultMat := Matrix{
+		RowsNum: rows,
+		ColsNum: cols,
+	}
+
+	for i := 0; i < rows; i++ {
+		row := Row{}
+		for i := 0; i < cols; i++ {
+			row = append(row, 0)
+		}
+		resultMat.Value = append(resultMat.Value, row)
+	}
+
+	return resultMat
 }

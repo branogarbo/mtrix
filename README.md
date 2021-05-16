@@ -67,7 +67,7 @@ func main() {
 	mat1 := util.Matrix{
 		RowsNum: 3,
 		ColsNum: 3,
-		Value: util.MatrixValue{
+		Value: util.MatVal{
 			{1, -4, 9},
 			{2.7, 3, 7},
 			{0, -3.3, 8},
@@ -77,7 +77,7 @@ func main() {
 	mat2 := util.Matrix{
 		RowsNum: 3,
 		ColsNum: 3,
-		Value: util.MatrixValue{
+		Value: util.MatVal{
 			{1, 1, 1},
 			{1, 1, 1},
 			{1, 1, 1},

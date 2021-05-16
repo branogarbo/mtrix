@@ -39,7 +39,7 @@ func TestMatAdd(t *testing.T) {
 					{
 						RowsNum: 3,
 						ColsNum: 3,
-						Value: u.MatrixValue{
+						Value: u.MatVal{
 							{1, 2, 3},
 							{4, 5, 6},
 							{7, 8, 9},
@@ -48,7 +48,7 @@ func TestMatAdd(t *testing.T) {
 					{
 						RowsNum: 3,
 						ColsNum: 3,
-						Value: u.MatrixValue{
+						Value: u.MatVal{
 							{1, 1, 1},
 							{1, 1, 1},
 							{1, 1, 1},
@@ -59,7 +59,7 @@ func TestMatAdd(t *testing.T) {
 			want: u.Matrix{
 				RowsNum: 3,
 				ColsNum: 3,
-				Value: u.MatrixValue{
+				Value: u.MatVal{
 					{2, 3, 4},
 					{5, 6, 7},
 					{8, 9, 10},
@@ -74,7 +74,7 @@ func TestMatAdd(t *testing.T) {
 					{
 						RowsNum: 3,
 						ColsNum: 3,
-						Value: u.MatrixValue{
+						Value: u.MatVal{
 							{1, 2, 3},
 							{4, 5, 6},
 							{7, 8, 9},
@@ -83,7 +83,7 @@ func TestMatAdd(t *testing.T) {
 					{
 						RowsNum: 2,
 						ColsNum: 2,
-						Value: u.MatrixValue{
+						Value: u.MatVal{
 							{1, 1},
 							{1, 1},
 						},
@@ -91,7 +91,7 @@ func TestMatAdd(t *testing.T) {
 					{
 						RowsNum: 2,
 						ColsNum: 3,
-						Value: u.MatrixValue{
+						Value: u.MatVal{
 							{1, 1, 1},
 							{1, 1, 1},
 						},

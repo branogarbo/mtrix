@@ -3,7 +3,14 @@ package trans
 import u "github.com/branogarbo/mtrix/util"
 
 func MatTrans(mat u.Matrix) u.Matrix {
-	return u.PopulateNewMat(mat, func(mv u.MatrixValue, r, c int, secMvs ...u.MatrixValue) float64 {
-		return mv[c][r]
-	})
+	MPconf := u.MatPopConfig{
+		MainMat: mat,
+		NewRows: mat.ColsNum,
+		NewCols: mat.RowsNum,
+		Action: func(mv u.MatVal, r, c int, secMvs []u.MatVal) float64 {
+			return mv[c][r]
+		},
+	}
+
+	return u.PopulateNewMat(MPconf)
 }

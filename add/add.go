@@ -13,15 +13,23 @@ func MatAdd(mats ...u.Matrix) (u.Matrix, error) {
 		return u.Matrix{}, err
 	}
 
-	resultMat = u.PopulateNewMat(mats[0], func(mv u.MatrixValue, r, c int, secMats ...u.MatrixValue) float64 {
-		elSum := mv[r][c]
+	MPconf := u.MatPopConfig{
+		MainMat: mats[0],
+		SecMats: mats[1:],
+		NewRows: mats[0].RowsNum,
+		NewCols: mats[0].ColsNum,
+		Action: func(mv u.MatVal, r, c int, secMats []u.MatVal) float64 {
+			elSum := mv[r][c]
 
-		for _, secMv := range secMats {
-			elSum += secMv[r][c]
-		}
+			for _, secMv := range secMats {
+				elSum += secMv[r][c]
+			}
 
-		return elSum
-	}, mats[1:]...)
+			return elSum
+		},
+	}
+
+	resultMat = u.PopulateNewMat(MPconf)
 
 	return resultMat, nil
 }

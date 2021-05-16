@@ -37,7 +37,7 @@ func TestMatTrans(t *testing.T) {
 				mat: u.Matrix{
 					RowsNum: 4,
 					ColsNum: 4,
-					Value: u.MatrixValue{
+					Value: u.MatVal{
 						{1, 2, 3, 4},
 						{5, 6, 7, 8},
 						{9, 10, 11, 12},
@@ -48,11 +48,33 @@ func TestMatTrans(t *testing.T) {
 			want: u.Matrix{
 				RowsNum: 4,
 				ColsNum: 4,
-				Value: u.MatrixValue{
+				Value: u.MatVal{
 					{1, 5, 9, 13},
 					{2, 6, 10, 14},
 					{3, 7, 11, 15},
 					{4, 8, 12, 16},
+				},
+			},
+		},
+		{
+			name: "mismatch size trans",
+			args: args{
+				mat: u.Matrix{
+					RowsNum: 2,
+					ColsNum: 3,
+					Value: u.MatVal{
+						{1, 2, 3},
+						{5, 6, 7},
+					},
+				},
+			},
+			want: u.Matrix{
+				RowsNum: 3,
+				ColsNum: 2,
+				Value: u.MatVal{
+					{1, 5},
+					{2, 6},
+					{3, 7},
 				},
 			},
 		},

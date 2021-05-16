@@ -36,7 +36,7 @@ func TestIsMultPossible(t *testing.T) {
 				m1: Matrix{
 					RowsNum: 3,
 					ColsNum: 3,
-					Value: MatrixValue{
+					Value: MatVal{
 						{1, 1, 1},
 						{1, 1, 1},
 						{1, 1, 1},
@@ -45,7 +45,7 @@ func TestIsMultPossible(t *testing.T) {
 				m2: Matrix{
 					RowsNum: 2,
 					ColsNum: 3,
-					Value: MatrixValue{
+					Value: MatVal{
 						{1, 1, 1},
 						{1, 1, 1},
 					},
@@ -59,7 +59,7 @@ func TestIsMultPossible(t *testing.T) {
 				m1: Matrix{
 					RowsNum: 3,
 					ColsNum: 3,
-					Value: MatrixValue{
+					Value: MatVal{
 						{1, 1, 1},
 						{1, 1, 1},
 						{1, 1, 1},
@@ -68,7 +68,7 @@ func TestIsMultPossible(t *testing.T) {
 				m2: Matrix{
 					RowsNum: 3,
 					ColsNum: 4,
-					Value: MatrixValue{
+					Value: MatVal{
 						{1, 1, 1, 1},
 						{1, 1, 1, 1},
 						{1, 1, 1, 1},
@@ -102,7 +102,7 @@ func TestIsMatrixValid(t *testing.T) {
 				m: Matrix{
 					RowsNum: 3,
 					ColsNum: 4,
-					Value: MatrixValue{
+					Value: MatVal{
 						{1, 1, 1, 1},
 						{1, 1, 1, 1},
 						{1, 1, 1},
@@ -117,7 +117,7 @@ func TestIsMatrixValid(t *testing.T) {
 				m: Matrix{
 					RowsNum: 3,
 					ColsNum: 4,
-					Value: MatrixValue{
+					Value: MatVal{
 						{1, 1, 1, 1},
 						{1, 1, 1, 1},
 						{1, 1, 1, 1},
@@ -230,7 +230,7 @@ func TestGetMatsFromFiles(t *testing.T) {
 				{
 					RowsNum: 2,
 					ColsNum: 2,
-					Value: MatrixValue{
+					Value: MatVal{
 						{1, 2},
 						{3, -5},
 					},
@@ -238,7 +238,7 @@ func TestGetMatsFromFiles(t *testing.T) {
 				{
 					RowsNum: 3,
 					ColsNum: 3,
-					Value: MatrixValue{
+					Value: MatVal{
 						{2, 2, 2},
 						{2, 2, 2},
 						{2, 2, 2},
@@ -247,7 +247,7 @@ func TestGetMatsFromFiles(t *testing.T) {
 				{
 					RowsNum: 2,
 					ColsNum: 3,
-					Value: MatrixValue{
+					Value: MatVal{
 						{2, 3, 4},
 						{-1, 4, 3},
 					},
@@ -272,9 +272,7 @@ func TestGetMatsFromFiles(t *testing.T) {
 
 func TestPopulateNewMat(t *testing.T) {
 	type args struct {
-		mat     Matrix
-		action  func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64
-		secMats []Matrix
+		c MatPopConfig
 	}
 	tests := []struct {
 		name string
@@ -284,36 +282,40 @@ func TestPopulateNewMat(t *testing.T) {
 		{
 			name: "add 1 to each el",
 			args: args{
-				mat: Matrix{
-					RowsNum: 3,
-					ColsNum: 3,
-					Value: MatrixValue{
-						{2, 2, 2},
-						{2, 2, 2},
-						{2, 2, 2},
-					},
-				},
-				action: func(mv MatrixValue, r, c int, secMvs ...MatrixValue) float64 {
-					secMv := secMvs[0]
-
-					return mv[r][c] + secMv[r][c]
-				},
-				secMats: []Matrix{
-					{
+				c: MatPopConfig{
+					MainMat: Matrix{
 						RowsNum: 3,
 						ColsNum: 3,
-						Value: MatrixValue{
-							{1, 1, 1},
-							{1, 1, 1},
-							{1, 1, 1},
+						Value: MatVal{
+							{2, 2, 2},
+							{2, 2, 2},
+							{2, 2, 2},
 						},
+					},
+					SecMats: []Matrix{
+						{
+							RowsNum: 3,
+							ColsNum: 3,
+							Value: MatVal{
+								{1, 1, 1},
+								{1, 1, 1},
+								{1, 1, 1},
+							},
+						},
+					},
+					NewRows: 3,
+					NewCols: 3,
+					Action: func(mv1 MatVal, r, c int, secMvs []MatVal) float64 {
+						mv2 := secMvs[0]
+
+						return mv1[r][c] + mv2[r][c]
 					},
 				},
 			},
 			want: Matrix{
 				RowsNum: 3,
 				ColsNum: 3,
-				Value: MatrixValue{
+				Value: MatVal{
 					{3, 3, 3},
 					{3, 3, 3},
 					{3, 3, 3},
@@ -323,8 +325,43 @@ func TestPopulateNewMat(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := PopulateNewMat(tt.args.mat, tt.args.action, tt.args.secMats...); !reflect.DeepEqual(got, tt.want) {
+			if got := PopulateNewMat(tt.args.c); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("PopulateNewMat() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestInitMat(t *testing.T) {
+	type args struct {
+		rows int
+		cols int
+	}
+	tests := []struct {
+		name string
+		args args
+		want Matrix
+	}{
+		{
+			name: "2x3",
+			args: args{
+				rows: 2,
+				cols: 3,
+			},
+			want: Matrix{
+				RowsNum: 2,
+				ColsNum: 3,
+				Value: MatVal{
+					{0, 0, 0},
+					{0, 0, 0},
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := InitMat(tt.args.rows, tt.args.cols); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("InitMat() = %v, want %v", got, tt.want)
 			}
 		})
 	}
