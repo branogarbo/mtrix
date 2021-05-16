@@ -91,5 +91,44 @@ func main() {
 
 	util.PrintMat(resultMat)
 }
+```
 
+Multiplying two matrices together and printing the result:
+``` go
+package main
+
+import (
+	"log"
+
+	"github.com/branogarbo/mtrix/mult"
+	"github.com/branogarbo/mtrix/util"
+)
+
+func main() {
+	mat1 := util.Matrix{
+		RowsNum: 3,
+		ColsNum: 2,
+		Value: util.MatVal{
+			{1, -4},
+			{2.7, 3},
+			{0, -3.3},
+		},
+	}
+
+	mat2 := util.Matrix{
+		RowsNum: 2,
+		ColsNum: 2,
+		Value: util.MatVal{
+			{1, 0},
+			{0, 1},
+		},
+	}
+
+	resultMat, err := mult.MatMult(mat1, mat2)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	util.PrintMat(resultMat)
+}
 ```
