@@ -132,13 +132,29 @@ func PopulateNewMat(c MatPopConfig) Matrix {
 	return resultMat
 }
 
-func PrintMat(mat Matrix) {
+// GetMatString returns mat in its string form.
+func GetMatString(mat Matrix) string {
+	var matStr string
+
 	for _, row := range mat.Value {
-		for _, el := range row {
-			fmt.Printf("%v ", el)
+		for c, el := range row {
+			matStr += fmt.Sprint(el)
+
+			if c != len(row)-1 {
+				matStr += " "
+			}
 		}
-		fmt.Print("\n")
+		matStr += "\n"
 	}
+
+	return matStr
+}
+
+// PrintMat prints mat to the command line.
+func PrintMat(mat Matrix) {
+	matStr := GetMatString(mat)
+
+	fmt.Print(matStr)
 }
 
 // InitMat creates a zero matrix with the passed size. Main purpose
