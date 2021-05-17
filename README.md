@@ -16,7 +16,7 @@ go install github.com/branogarbo/mtrix@latest
 Or get the pre-compiled binaries for your platform on the [releases page](https://github.com/branogarbo/mtrix/releases)
 
 
-## 🧙‍♂️ **CLI usage**
+## 🧙‍♂️ **CLI Usage**
 ```
 mtrix
 
