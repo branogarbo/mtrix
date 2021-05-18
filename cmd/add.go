@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/branogarbo/mtrix/add"
 	"github.com/branogarbo/mtrix/util"
 	"github.com/spf13/cobra"
@@ -14,20 +12,20 @@ var addCmd = &cobra.Command{
 	Example: "mtrix add mat1.txt mat2.txt",
 	Short:   "Get the sum of two matrices",
 	Args:    cobra.MinimumNArgs(2),
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		mats, err := util.ParseCmdArgs(cmd, args)
 		if err != nil {
-			fmt.Println(err)
-			return
+			return err
 		}
 
 		resultMat, err := add.MatAdd(mats...)
 		if err != nil {
-			fmt.Println(err)
-			return
+			return err
 		}
 
 		util.PrintMat(resultMat)
+
+		return nil
 	},
 }
 
