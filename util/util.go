@@ -33,10 +33,16 @@ func GetMatFromFile(path string) (Matrix, error) {
 		return Matrix{}, err
 	}
 
+	return StringToMat(string(fileBytes))
+}
+
+// StringToMat parses a string to a matrix.
+func StringToMat(ms string) (Matrix, error) {
 	var (
-		fileStr = strings.TrimSpace(string(fileBytes))
-		rowStrs = strings.Split(fileStr, "\n")
+		matStr  = strings.TrimSpace(ms)
+		rowStrs = strings.Split(matStr, "\n")
 		matrix  = Matrix{}
+		err     error
 	)
 
 	for _, rowStr := range rowStrs {

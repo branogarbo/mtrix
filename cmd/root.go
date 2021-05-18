@@ -19,6 +19,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var isRaw bool
+
 var rootCmd = &cobra.Command{
 	Use:   "mtrix",
 	Short: "A tool for performing basic matrix operations.",
@@ -26,4 +28,8 @@ var rootCmd = &cobra.Command{
 
 func Execute() {
 	cobra.CheckErr(rootCmd.Execute())
+}
+
+func init() {
+	rootCmd.PersistentFlags().BoolVarP(&isRaw, "raw-input", "r", false, "Whether or not the command takes matrices as strings")
 }
