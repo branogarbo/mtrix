@@ -15,24 +15,22 @@ var transCmd = &cobra.Command{
 	Short:   "Get the transpose of a matrix",
 	Args:    cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		mat, err := util.StringToMat(args[0])
+		var mat util.Matrix
+
+		isRaw, err := cmd.Flags().GetBool("raw-input")
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
 
-		isRaw, err = cmd.Flags().GetBool("raw-input")
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-
-		if !isRaw {
+		if isRaw {
+			mat, err = util.StringToMat(args[0])
+		} else {
 			mat, err = util.GetMatFromFile(args[0])
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
+		}
+		if err != nil {
+			fmt.Println(err)
+			return
 		}
 
 		resultMat := trans.MatTrans(mat)

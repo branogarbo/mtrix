@@ -15,7 +15,19 @@ var multCmd = &cobra.Command{
 	Short:   "Multiply two matrices together",
 	Args:    cobra.ExactArgs(2), //cobra.MinimumNArgs(2) later
 	Run: func(cmd *cobra.Command, args []string) {
-		mats, err := util.GetMatsFromFiles(args...)
+		var mats []util.Matrix
+
+		isRaw, err := cmd.Flags().GetBool("raw-input")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		if isRaw {
+			mats, err = util.StringsToMats(args)
+		} else {
+			mats, err = util.GetMatsFromFiles(args)
+		}
 		if err != nil {
 			fmt.Println(err)
 			return
