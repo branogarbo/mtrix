@@ -33,10 +33,16 @@ func GetMatFromFile(path string) (Matrix, error) {
 		return Matrix{}, err
 	}
 
+	return StringToMat(string(fileBytes))
+}
+
+// StringToMat parses a string to a matrix.
+func StringToMat(ms string) (Matrix, error) {
 	var (
-		fileStr = strings.TrimSpace(string(fileBytes))
-		rowStrs = strings.Split(fileStr, "\n")
+		matStr  = strings.TrimSpace(ms)
+		rowStrs = strings.Split(matStr, "\n")
 		matrix  = Matrix{}
+		err     error
 	)
 
 	for _, rowStr := range rowStrs {
@@ -132,8 +138,8 @@ func PopulateNewMat(c MatPopConfig) Matrix {
 	return resultMat
 }
 
-// GetMatString returns mat in its string form.
-func GetMatString(mat Matrix) string {
+// MatToString returns mat in its string form.
+func MatToString(mat Matrix) string {
 	var matStr string
 
 	for _, row := range mat.Value {
@@ -152,7 +158,7 @@ func GetMatString(mat Matrix) string {
 
 // PrintMat prints mat to the command line.
 func PrintMat(mat Matrix) {
-	matStr := GetMatString(mat)
+	matStr := MatToString(mat)
 
 	fmt.Print(matStr)
 }
