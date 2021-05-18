@@ -17,16 +17,26 @@ var smultCmd = &cobra.Command{
 	Args:    cobra.ExactArgs(2), //cobra.MinimumNArgs(2) later
 	Run: func(cmd *cobra.Command, args []string) {
 		var (
-			matP      = args[1]
+			mat       util.Matrix
+			matArg    = args[1]
 			scal, err = strconv.ParseFloat(args[0], 64)
 		)
-
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
 
-		mat, err := util.GetMatFromFile(matP)
+		isRaw, err := cmd.Flags().GetBool("raw-input")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		if isRaw {
+			mat, err = util.StringToMat(matArg)
+		} else {
+			mat, err = util.GetMatFromFile(matArg)
+		}
 		if err != nil {
 			fmt.Println(err)
 			return

@@ -72,8 +72,24 @@ func StringToMat(ms string) (Matrix, error) {
 	return matrix, nil
 }
 
+// StringsToMats parses strings to matrices.
+func StringsToMats(mats []string) ([]Matrix, error) {
+	var matStrs []Matrix
+
+	for _, m := range mats {
+		str, err := StringToMat(m)
+		if err != nil {
+			return nil, err
+		}
+
+		matStrs = append(matStrs, str)
+	}
+
+	return matStrs, nil
+}
+
 // GetMatsFromFiles returns a slice of matrices from their matrix files.
-func GetMatsFromFiles(paths ...string) ([]Matrix, error) {
+func GetMatsFromFiles(paths []string) ([]Matrix, error) {
 	var mats []Matrix
 
 	// use goroutines?
