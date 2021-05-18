@@ -16,33 +16,19 @@ var smultCmd = &cobra.Command{
 	Short:   "Multiply a matrix by a scalar",
 	Args:    cobra.ExactArgs(2), //cobra.MinimumNArgs(2) later
 	Run: func(cmd *cobra.Command, args []string) {
-		var (
-			mat       util.Matrix
-			matArg    = args[1]
-			scal, err = strconv.ParseFloat(args[0], 64)
-		)
+		scal, err := strconv.ParseFloat(args[0], 64)
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
 
-		isRaw, err := cmd.Flags().GetBool("raw-input")
+		mats, err := util.ParseCmdArgs(cmd, args[1:])
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
 
-		if isRaw {
-			mat, err = util.StringToMat(matArg)
-		} else {
-			mat, err = util.GetMatFromFile(matArg)
-		}
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-
-		resultMat := mult.ScalarMult(scal, mat)
+		resultMat := mult.ScalarMult(scal, mats[0])
 
 		util.PrintMat(resultMat)
 	},

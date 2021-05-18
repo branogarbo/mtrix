@@ -6,6 +6,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/spf13/cobra"
 )
 
 // IsMatrixValid checks if m is missing any elements.
@@ -196,4 +198,25 @@ func InitMat(rows, cols int) Matrix {
 	}
 
 	return resultMat
+}
+
+// ParseCmdArgs parses args according to the command raw-input flag.
+func ParseCmdArgs(cmd *cobra.Command, args []string) ([]Matrix, error) {
+	var mats []Matrix
+
+	isRaw, err := cmd.Flags().GetBool("raw-input")
+	if err != nil {
+		return nil, err
+	}
+
+	if isRaw {
+		mats, err = StringsToMats(args)
+	} else {
+		mats, err = GetMatsFromFiles(args)
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	return mats, nil
 }
