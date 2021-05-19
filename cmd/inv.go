@@ -1,16 +1,16 @@
 package cmd
 
 import (
-	"github.com/branogarbo/mtrix/trans"
+	"github.com/branogarbo/mtrix/inv"
 	"github.com/branogarbo/mtrix/util"
 	"github.com/spf13/cobra"
 )
 
-var transCmd = &cobra.Command{
-	Use:     "trans",
-	Aliases: []string{"t"},
-	Example: "mtrix trans mat.txt",
-	Short:   "Get the transpose of a matrix",
+var invCmd = &cobra.Command{
+	Use:     "inv",
+	Aliases: []string{"i"},
+	Example: "mtrix inv mat.txt",
+	Short:   "Get the inverse of a matrix",
 	Args:    cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		mats, err := util.ParseCmdArgs(cmd, args)
@@ -18,7 +18,10 @@ var transCmd = &cobra.Command{
 			return err
 		}
 
-		resultMat := trans.MatTrans(mats[0])
+		resultMat, err := inv.MatInv(mats[0])
+		if err != nil {
+			return err
+		}
 
 		util.PrintMat(resultMat)
 
@@ -27,5 +30,5 @@ var transCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(transCmd)
+	rootCmd.AddCommand(invCmd)
 }

@@ -10,9 +10,8 @@ import (
 // MatDet returns the determinant of m.
 func MatDet(m u.Matrix) (float64, error) {
 	var (
-		det   float64
-		mv    = m.Value
-		newMv = mv[1:]
+		det float64
+		mv  = m.Value
 	)
 
 	if m.RowsNum != m.ColsNum {
@@ -24,13 +23,7 @@ func MatDet(m u.Matrix) (float64, error) {
 	}
 
 	for c, elVal := range mv[0] {
-		minor := u.InitMat(m.RowsNum-1, 0)
-		minor.ColsNum = m.ColsNum - 1
-
-		for r, row := range newMv {
-			minor.Value[r] = append(minor.Value[r], row[:c]...)
-			minor.Value[r] = append(minor.Value[r], row[c+1:]...)
-		}
+		minor := u.GetMinor(m, 0, c)
 
 		minorDet, err := MatDet(minor)
 		if err != nil {

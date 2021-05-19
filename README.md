@@ -29,6 +29,7 @@ Available Commands:
   add         Get the sum of two matrices
   det         Compute the determinant of a matrix
   help        Help about any command
+  inv         Get the inverse of a matrix
   mult        Multiply two matrices together
   smult       Multiply a matrix by a scalar
   sub         Get the difference of two matrices

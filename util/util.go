@@ -220,3 +220,35 @@ func ParseCmdArgs(cmd *cobra.Command, args []string) ([]Matrix, error) {
 
 	return mats, nil
 }
+
+// MakeIdentityMat creates an indentity matrix with wid as the number of rows and cols.
+func MakeIdentityMat(w int) Matrix {
+	m := InitMat(w, w)
+
+	for r, row := range m.Value {
+		for c := range row {
+			if r == c {
+				m.Value[r][c] = 1
+			}
+		}
+	}
+
+	return m
+}
+
+// GetMinor returns the minor of m according to row at column c.
+func GetMinor(m Matrix, row, c int) Matrix {
+	var newMv MatVal
+	newMv = append(newMv, m.Value[:row]...)
+	newMv = append(newMv, m.Value[row+1:]...)
+
+	minor := InitMat(m.RowsNum-1, 0)
+	minor.ColsNum = m.ColsNum - 1
+
+	for r, row := range newMv {
+		minor.Value[r] = append(minor.Value[r], row[:c]...)
+		minor.Value[r] = append(minor.Value[r], row[c+1:]...)
+	}
+
+	return minor
+}

@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
 package util
 
 import (
@@ -362,6 +363,107 @@ func TestInitMat(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := InitMat(tt.args.rows, tt.args.cols); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("InitMat() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestMakeIdentityMat(t *testing.T) {
+	type args struct {
+		wid int
+	}
+	tests := []struct {
+		name string
+		args args
+		want Matrix
+	}{
+		{
+			name: "3x3 working",
+			args: args{3},
+			want: Matrix{
+				RowsNum: 3,
+				ColsNum: 3,
+				Value: MatVal{
+					{1, 0, 0},
+					{0, 1, 0},
+					{0, 0, 1},
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := MakeIdentityMat(tt.args.wid); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("MakeIdentityMat() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGetMinor(t *testing.T) {
+	type args struct {
+		m   Matrix
+		row int
+		c   int
+	}
+	tests := []struct {
+		name string
+		args args
+		want Matrix
+	}{
+		{
+			name: "working",
+			args: args{
+				m: Matrix{
+					RowsNum: 3,
+					ColsNum: 3,
+					Value: MatVal{
+						{1, -4, 2},
+						{0, 6, -7},
+						{5, 8, 0},
+					},
+				},
+				row: 0,
+				c:   1,
+			},
+			want: Matrix{
+				RowsNum: 2,
+				ColsNum: 2,
+				Value: MatVal{
+					{0, -7},
+					{5, 0},
+				},
+			},
+		},
+		{
+			name: "working",
+			args: args{
+				m: Matrix{
+					RowsNum: 3,
+					ColsNum: 3,
+					Value: MatVal{
+						{1, -4, 2},
+						{0, 6, -7},
+						{5, 8, 0},
+					},
+				},
+				row: 0,
+				c:   2,
+			},
+			want: Matrix{
+				RowsNum: 2,
+				ColsNum: 2,
+				Value: MatVal{
+					{0, 6},
+					{5, 8},
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := GetMinor(tt.args.m, tt.args.row, tt.args.c); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetMinor() = %v, want %v", got, tt.want)
 			}
 		})
 	}
