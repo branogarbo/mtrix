@@ -13,7 +13,7 @@ var smultCmd = &cobra.Command{
 	Aliases: []string{"sm", "ms", "mults"},
 	Example: "mtrix smult 2 mat.txt",
 	Short:   "Multiply a matrix by a scalar",
-	Args:    cobra.ExactArgs(2), //cobra.MinimumNArgs(2) later
+	Args:    cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		scal, err := strconv.ParseFloat(args[0], 64)
 		if err != nil {

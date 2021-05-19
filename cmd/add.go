@@ -8,7 +8,7 @@ import (
 
 var addCmd = &cobra.Command{
 	Use:     "add",
-	Aliases: []string{"+"},
+	Aliases: []string{"+", "a"},
 	Example: "mtrix add mat1.txt mat2.txt",
 	Short:   "Get the sum of two matrices",
 	Args:    cobra.MinimumNArgs(2),

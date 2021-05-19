@@ -27,6 +27,7 @@ Usage:
 
 Available Commands:
   add         Get the sum of two matrices
+  det         Compute the determinant of a matrix
   help        Help about any command
   mult        Multiply two matrices together
   smult       Multiply a matrix by a scalar
@@ -34,7 +35,8 @@ Available Commands:
   trans       Get the transpose of a matrix
 
 Flags:
-  -h, --help   help for mtrix
+  -h, --help        help for mtrix
+  -r, --raw-input   Whether or not the command takes matrices as strings
 
 Use "mtrix [command] --help" for more information about a command.
 ```
