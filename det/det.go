@@ -7,6 +7,7 @@ import (
 	u "github.com/branogarbo/mtrix/util"
 )
 
+// MatDet returns the determinant of m.
 func MatDet(m u.Matrix) (float64, error) {
 	var (
 		det   float64
