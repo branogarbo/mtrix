@@ -2,7 +2,6 @@ package det
 
 import (
 	"errors"
-	"fmt"
 	"math"
 
 	u "github.com/branogarbo/mtrix/util"
@@ -31,8 +30,6 @@ func MatDet(m u.Matrix) (float64, error) {
 			minor.Value[r] = append(minor.Value[r], row[:c]...)
 			minor.Value[r] = append(minor.Value[r], row[c+1:]...)
 		}
-
-		fmt.Println(minor)
 
 		minorDet, err := MatDet(minor)
 		if err != nil {
