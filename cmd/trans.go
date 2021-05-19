@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/branogarbo/mtrix/trans"
-	"github.com/branogarbo/mtrix/util"
+	t "github.com/branogarbo/mtrix/transpose"
+	u "github.com/branogarbo/mtrix/util"
 	"github.com/spf13/cobra"
 )
 
@@ -13,14 +13,14 @@ var transCmd = &cobra.Command{
 	Short:   "Get the transpose of a matrix",
 	Args:    cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		mats, err := util.ParseCmdArgs(cmd, args)
+		mats, err := u.ParseCmdArgs(cmd, args)
 		if err != nil {
 			return err
 		}
 
-		resultMat := trans.MatTrans(mats[0])
+		resultMat := t.MatTrans(mats[0])
 
-		util.PrintMat(resultMat)
+		u.PrintMat(resultMat)
 
 		return nil
 	},

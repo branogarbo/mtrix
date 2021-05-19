@@ -3,8 +3,8 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/branogarbo/mtrix/det"
-	"github.com/branogarbo/mtrix/util"
+	d "github.com/branogarbo/mtrix/determinant"
+	u "github.com/branogarbo/mtrix/util"
 	"github.com/spf13/cobra"
 )
 
@@ -15,12 +15,12 @@ var detCmd = &cobra.Command{
 	Short:   "Compute the determinant of a matrix",
 	Args:    cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		mats, err := util.ParseCmdArgs(cmd, args)
+		mats, err := u.ParseCmdArgs(cmd, args)
 		if err != nil {
 			return err
 		}
 
-		det, err := det.MatDet(mats[0])
+		det, err := d.MatDet(mats[0])
 		if err != nil {
 			return err
 		}

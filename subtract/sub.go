@@ -1,16 +1,16 @@
-package sub
+package subtract
 
 import (
-	"github.com/branogarbo/mtrix/add"
-	"github.com/branogarbo/mtrix/mult"
+	a "github.com/branogarbo/mtrix/addition"
+	m "github.com/branogarbo/mtrix/multiply"
 	u "github.com/branogarbo/mtrix/util"
 )
 
 // MatSub subtracts m2 from m1.
 func MatSub(m1, m2 u.Matrix) (u.Matrix, error) {
-	negM2 := mult.ScalarMult(-1, m2)
+	negM2 := m.ScalarMult(-1, m2)
 
-	resultMat, err := add.MatAdd(m1, negM2)
+	resultMat, err := a.MatAdd(m1, negM2)
 	if err != nil {
 		return u.Matrix{}, err
 	}

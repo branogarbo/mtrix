@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/branogarbo/mtrix/mult"
-	"github.com/branogarbo/mtrix/util"
+	m "github.com/branogarbo/mtrix/multiply"
+	u "github.com/branogarbo/mtrix/util"
 	"github.com/spf13/cobra"
 )
 
@@ -13,17 +13,17 @@ var multCmd = &cobra.Command{
 	Short:   "Multiply two matrices together",
 	Args:    cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		mats, err := util.ParseCmdArgs(cmd, args)
+		mats, err := u.ParseCmdArgs(cmd, args)
 		if err != nil {
 			return err
 		}
 
-		resultMat, err := mult.MatMult(mats[0], mats[1])
+		resultMat, err := m.MatMult(mats[0], mats[1])
 		if err != nil {
 			return err
 		}
 
-		util.PrintMat(resultMat)
+		u.PrintMat(resultMat)
 
 		return nil
 	},

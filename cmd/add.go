@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/branogarbo/mtrix/add"
-	"github.com/branogarbo/mtrix/util"
+	a "github.com/branogarbo/mtrix/addition"
+	u "github.com/branogarbo/mtrix/util"
 	"github.com/spf13/cobra"
 )
 
@@ -13,17 +13,17 @@ var addCmd = &cobra.Command{
 	Short:   "Get the sum of two matrices",
 	Args:    cobra.MinimumNArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		mats, err := util.ParseCmdArgs(cmd, args)
+		mats, err := u.ParseCmdArgs(cmd, args)
 		if err != nil {
 			return err
 		}
 
-		resultMat, err := add.MatAdd(mats...)
+		resultMat, err := a.MatAdd(mats...)
 		if err != nil {
 			return err
 		}
 
-		util.PrintMat(resultMat)
+		u.PrintMat(resultMat)
 
 		return nil
 	},

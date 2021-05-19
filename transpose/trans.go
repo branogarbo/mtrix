@@ -1,4 +1,4 @@
-package trans
+package transpose
 
 import u "github.com/branogarbo/mtrix/util"
 

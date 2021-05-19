@@ -238,8 +238,7 @@ func MakeIdentityMat(w int) Matrix {
 
 // GetMinor returns the minor of m according to row at column c.
 func GetMinor(m Matrix, row, c int) Matrix {
-	var newMv MatVal
-	newMv = append(newMv, m.Value[:row]...)
+	newMv := append(MatVal{}, m.Value[:row]...)
 	newMv = append(newMv, m.Value[row+1:]...)
 
 	minor := InitMat(m.RowsNum-1, 0)

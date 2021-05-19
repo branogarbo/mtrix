@@ -1,12 +1,12 @@
-package inv
+package inverse
 
 import (
 	"errors"
 	"math"
 
-	"github.com/branogarbo/mtrix/det"
-	"github.com/branogarbo/mtrix/mult"
-	"github.com/branogarbo/mtrix/trans"
+	det "github.com/branogarbo/mtrix/determinant"
+	mult "github.com/branogarbo/mtrix/multiply"
+	trans "github.com/branogarbo/mtrix/transpose"
 	u "github.com/branogarbo/mtrix/util"
 )
 

@@ -47,8 +47,8 @@ Use "mtrix [command] --help" for more information about a command.
 ## 🌌 **Package Usage**
 Get the packages you need for your project:
 ```
-go get github.com/branogarbo/mtrix/add
-go get github.com/branogarbo/mtrix/mult
+go get github.com/branogarbo/mtrix/addition
+go get github.com/branogarbo/mtrix/multiply
 go get github.com/branogarbo/mtrix/util
 ...
 ```
@@ -59,28 +59,27 @@ Adding two matrices and printing the result:
 package main
 
 import (
-	"fmt"
 	"log"
 
-	"github.com/branogarbo/mtrix/add"
-	"github.com/branogarbo/mtrix/util"
+	add "github.com/branogarbo/mtrix/addition"
+	u "github.com/branogarbo/mtrix/util"
 )
 
 func main() {
-	mat1 := util.Matrix{
+	mat1 := u.Matrix{
 		RowsNum: 3,
 		ColsNum: 3,
-		Value: util.MatVal{
+		Value: u.MatVal{
 			{1, -4, 9},
 			{2.7, 3, 7},
 			{0, -3.3, 8},
 		},
 	}
 
-	mat2 := util.Matrix{
+	mat2 := u.Matrix{
 		RowsNum: 3,
 		ColsNum: 3,
-		Value: util.MatVal{
+		Value: u.MatVal{
 			{1, 1, 1},
 			{1, 1, 1},
 			{1, 1, 1},
@@ -92,7 +91,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	util.PrintMat(resultMat)
+	u.PrintMat(resultMat)
 }
 ```
 
@@ -103,25 +102,25 @@ package main
 import (
 	"log"
 
-	"github.com/branogarbo/mtrix/mult"
-	"github.com/branogarbo/mtrix/util"
+	mult "github.com/branogarbo/mtrix/multiply"
+	u "github.com/branogarbo/mtrix/util"
 )
 
 func main() {
-	mat1 := util.Matrix{
+	mat1 := u.Matrix{
 		RowsNum: 3,
 		ColsNum: 2,
-		Value: util.MatVal{
+		Value: u.MatVal{
 			{1, -4},
 			{2.7, 3},
 			{0, -3.3},
 		},
 	}
 
-	mat2 := util.Matrix{
+	mat2 := u.Matrix{
 		RowsNum: 2,
 		ColsNum: 2,
-		Value: util.MatVal{
+		Value: u.MatVal{
 			{1, 0},
 			{0, 1},
 		},
@@ -132,6 +131,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	util.PrintMat(resultMat)
+	u.PrintMat(resultMat)
 }
 ```

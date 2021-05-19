@@ -3,8 +3,8 @@ package cmd
 import (
 	"strconv"
 
-	"github.com/branogarbo/mtrix/mult"
-	"github.com/branogarbo/mtrix/util"
+	m "github.com/branogarbo/mtrix/multiply"
+	u "github.com/branogarbo/mtrix/util"
 	"github.com/spf13/cobra"
 )
 
@@ -20,14 +20,14 @@ var smultCmd = &cobra.Command{
 			return err
 		}
 
-		mats, err := util.ParseCmdArgs(cmd, args[1:])
+		mats, err := u.ParseCmdArgs(cmd, args[1:])
 		if err != nil {
 			return err
 		}
 
-		resultMat := mult.ScalarMult(scal, mats[0])
+		resultMat := m.ScalarMult(scal, mats[0])
 
-		util.PrintMat(resultMat)
+		u.PrintMat(resultMat)
 
 		return nil
 	},

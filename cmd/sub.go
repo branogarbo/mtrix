@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/branogarbo/mtrix/sub"
-	"github.com/branogarbo/mtrix/util"
+	s "github.com/branogarbo/mtrix/subtract"
+	u "github.com/branogarbo/mtrix/util"
 	"github.com/spf13/cobra"
 )
 
@@ -13,17 +13,17 @@ var subCmd = &cobra.Command{
 	Short:   "Get the difference of two matrices",
 	Args:    cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		mats, err := util.ParseCmdArgs(cmd, args)
+		mats, err := u.ParseCmdArgs(cmd, args)
 		if err != nil {
 			return err
 		}
 
-		resultMat, err := sub.MatSub(mats[0], mats[1])
+		resultMat, err := s.MatSub(mats[0], mats[1])
 		if err != nil {
 			return err
 		}
 
-		util.PrintMat(resultMat)
+		u.PrintMat(resultMat)
 
 		return nil
 	},
