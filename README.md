@@ -31,13 +31,14 @@ Available Commands:
   help        Help about any command
   inv         Get the inverse of a matrix
   mult        Multiply two matrices together
+  pow         Raise a matrix to the nth power
   smult       Multiply a matrix by a scalar
   sub         Get the difference of two matrices
   trans       Get the transpose of a matrix
 
 Flags:
   -h, --help        help for mtrix
-  -r, --raw-input   Whether or not the command takes matrices as strings
+  -r, --raw-input   whether or not the command takes matrices as strings
 
 Use "mtrix [command] --help" for more information about a command.
 ```

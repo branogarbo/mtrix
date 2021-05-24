@@ -41,7 +41,7 @@ func GetMatFromFile(path string) (Matrix, error) {
 // StringToMat parses a string to a matrix.
 func StringToMat(ms string) (Matrix, error) {
 	var (
-		matStr  = strings.TrimSpace(ms)
+		matStr  = strings.ReplaceAll(strings.TrimSpace(ms), "\r", "")
 		rowStrs = strings.Split(matStr, "\n")
 		matrix  = Matrix{}
 		err     error

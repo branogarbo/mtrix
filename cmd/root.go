@@ -31,5 +31,5 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().BoolVarP(&isRaw, "raw-input", "r", false, "Whether or not the command takes matrices as strings")
+	rootCmd.PersistentFlags().BoolVarP(&isRaw, "raw-input", "r", false, "whether or not the command takes matrices as strings")
 }

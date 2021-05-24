@@ -11,14 +11,14 @@ var multCmd = &cobra.Command{
 	Aliases: []string{"x", "m"},
 	Example: "mtrix mult mat1.txt mat2.txt",
 	Short:   "Multiply two matrices together",
-	Args:    cobra.ExactArgs(2),
+	Args:    cobra.MinimumNArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		mats, err := u.ParseCmdArgs(cmd, args)
 		if err != nil {
 			return err
 		}
 
-		resultMat, err := m.MatMult(mats[0], mats[1])
+		resultMat, err := m.MatMult(mats...)
 		if err != nil {
 			return err
 		}

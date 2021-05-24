@@ -20,8 +20,25 @@ func ScalarMult(s float64, mat u.Matrix) u.Matrix {
 	return u.PopulateNewMat(MPconf)
 }
 
-// MatMult multiplies two matrices together.
-func MatMult(m1, m2 u.Matrix) (u.Matrix, error) {
+// MatMult multiplies the passed matrices together.
+func MatMult(mats ...u.Matrix) (u.Matrix, error) {
+	var (
+		resultMat = mats[0]
+		err       error
+	)
+
+	for _, mat := range mats[1:] {
+		resultMat, err = UnitMatMult(resultMat, mat)
+		if err != nil {
+			return u.Matrix{}, err
+		}
+	}
+
+	return resultMat, nil
+}
+
+// UnitMatMult multiplies two matrices together.
+func UnitMatMult(m1, m2 u.Matrix) (u.Matrix, error) {
 	if !u.IsMultPossible(m1, m2) {
 		return u.Matrix{}, errors.New("matrix multiplication not possible")
 	}
