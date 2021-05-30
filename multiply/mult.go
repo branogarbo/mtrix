@@ -8,6 +8,11 @@ import (
 
 // ScalarMult multiplies the matrix mat by the scalar s.
 func ScalarMult(s float64, mat u.Matrix) u.Matrix {
+	err := mat.SetSize()
+	if err != nil {
+		return u.Matrix{}
+	}
+
 	MPconf := u.MatPopConfig{
 		MainMat: mat,
 		NewRows: mat.RowsNum,
@@ -39,6 +44,15 @@ func MatMult(mats ...u.Matrix) (u.Matrix, error) {
 
 // UnitMatMult multiplies two matrices together.
 func UnitMatMult(m1, m2 u.Matrix) (u.Matrix, error) {
+	err := m1.SetSize()
+	if err != nil {
+		return u.Matrix{}, err
+	}
+	err = m2.SetSize()
+	if err != nil {
+		return u.Matrix{}, err
+	}
+
 	if !u.IsMultPossible(m1, m2) {
 		return u.Matrix{}, errors.New("matrix multiplication not possible")
 	}

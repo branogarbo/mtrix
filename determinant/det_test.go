@@ -20,8 +20,6 @@ func TestMatDet(t *testing.T) {
 			name: "det = 0, working",
 			args: args{
 				m: u.Matrix{
-					RowsNum: 3,
-					ColsNum: 3,
 					Value: u.MatVal{
 						{1, 8, 3},
 						{-2, 2, -6},
@@ -36,8 +34,6 @@ func TestMatDet(t *testing.T) {
 			name: "2x2, det = 0, working",
 			args: args{
 				m: u.Matrix{
-					RowsNum: 2,
-					ColsNum: 2,
 					Value: u.MatVal{
 						{1, 3},
 						{-2, -6},
@@ -51,8 +47,6 @@ func TestMatDet(t *testing.T) {
 			name: "2x3 error",
 			args: args{
 				m: u.Matrix{
-					RowsNum: 2,
-					ColsNum: 3,
 					Value: u.MatVal{
 						{1, 3, 8},
 						{-2, -6, 2},
@@ -66,8 +60,6 @@ func TestMatDet(t *testing.T) {
 			name: "4x4, det = 0, working",
 			args: args{
 				m: u.Matrix{
-					RowsNum: 4,
-					ColsNum: 4,
 					Value: u.MatVal{
 						{1, 3, 2, 2},
 						{-2, -6, 3, -4},

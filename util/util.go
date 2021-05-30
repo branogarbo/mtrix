@@ -12,15 +12,15 @@ import (
 
 // IsMatrixValid checks if m is missing any elements.
 func IsMatrixValid(m Matrix) bool {
-	var matLength int
+	mv := m.Value
 
-	for _, row := range m.Value {
-		for range row {
-			matLength++
+	for i := 1; i < len(mv); i++ {
+		if len(mv[i]) != len(mv[i-1]) {
+			return false
 		}
 	}
 
-	return (m.RowsNum*m.ColsNum == matLength) && (m.RowsNum == len(m.Value))
+	return true
 }
 
 // IsMultPossible checks if multiplication between m1 and m2 is possible.
@@ -63,10 +63,7 @@ func StringToMat(ms string) (Matrix, error) {
 		matrix.Value = append(matrix.Value, row)
 	}
 
-	matrix.RowsNum = len(matrix.Value)
-	matrix.ColsNum = len(matrix.Value[0])
-
-	err = CheckMats(matrix)
+	err = matrix.SetSize()
 	if err != nil {
 		return Matrix{}, err
 	}
@@ -250,4 +247,36 @@ func GetMinor(m Matrix, row, c int) Matrix {
 	}
 
 	return minor
+}
+
+// SetSize sets RowsNum and ColsNum of m based on its value.
+func (m *Matrix) SetSize() error {
+	err := CheckMats(*m)
+	if err != nil {
+		return err
+	}
+
+	m.RowsNum = len(m.Value)
+	m.ColsNum = len(m.Value[0])
+
+	return nil
+}
+
+// SetSizes sets RowsNum and ColsNum of each matrix in ms based on its value.
+func SetSizes(ms ...Matrix) ([]Matrix, error) {
+	var (
+		mats []Matrix
+		err  error
+	)
+
+	for _, m := range ms {
+		err = m.SetSize()
+		if err != nil {
+			return nil, err
+		}
+
+		mats = append(mats, m)
+	}
+
+	return mats, nil
 }

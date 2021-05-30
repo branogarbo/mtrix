@@ -37,8 +37,6 @@ func TestMatSub(t *testing.T) {
 			name: "wanted",
 			args: args{
 				m1: u.Matrix{
-					RowsNum: 3,
-					ColsNum: 3,
 					Value: u.MatVal{
 						{3, 3, 3},
 						{3, 3, 3},
@@ -46,8 +44,6 @@ func TestMatSub(t *testing.T) {
 					},
 				},
 				m2: u.Matrix{
-					RowsNum: 3,
-					ColsNum: 3,
 					Value: u.MatVal{
 						{1, 1, 1},
 						{1, 1, 1},

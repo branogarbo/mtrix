@@ -13,9 +13,13 @@ import (
 // MatInv returns the inverse of m.
 func MatInv(m u.Matrix) (u.Matrix, error) {
 	var (
+		err       = m.SetSize()
 		resultMat u.Matrix
 		mv        = m.Value
 	)
+	if err != nil {
+		return u.Matrix{}, err
+	}
 
 	if m.ColsNum == 2 && m.RowsNum == 2 {
 		nm := u.Matrix{
@@ -48,7 +52,10 @@ func MatInv(m u.Matrix) (u.Matrix, error) {
 		},
 	})
 
-	resultMat = trans.MatTrans(resultMat)
+	resultMat, err = trans.MatTrans(resultMat)
+	if err != nil {
+		return u.Matrix{}, err
+	}
 
 	detM, err := det.MatDet(m)
 	if err != nil {

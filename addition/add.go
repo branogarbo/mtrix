@@ -17,6 +17,11 @@ func MatAdd(mats ...u.Matrix) (u.Matrix, error) {
 		return u.Matrix{}, errors.New("less than 2 args passed")
 	}
 
+	mats, err = u.SetSizes(mats...)
+	if err != nil {
+		return u.Matrix{}, err
+	}
+
 	err = u.CheckMatSizes(mats...)
 	if err != nil {
 		return u.Matrix{}, err

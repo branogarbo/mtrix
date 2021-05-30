@@ -14,6 +14,11 @@ func MatDet(m u.Matrix) (float64, error) {
 		mv  = m.Value
 	)
 
+	err := m.SetSize()
+	if err != nil {
+		return 0, err
+	}
+
 	if m.RowsNum != m.ColsNum {
 		return 0, errors.New("argument is not a square matrix")
 	}

@@ -3,7 +3,12 @@ package transpose
 import u "github.com/branogarbo/mtrix/util"
 
 // MatTrans returns the transpose of mat.
-func MatTrans(mat u.Matrix) u.Matrix {
+func MatTrans(mat u.Matrix) (u.Matrix, error) {
+	err := mat.SetSize()
+	if err != nil {
+		return u.Matrix{}, err
+	}
+
 	MPconf := u.MatPopConfig{
 		MainMat: mat,
 		NewRows: mat.ColsNum,
@@ -13,5 +18,5 @@ func MatTrans(mat u.Matrix) u.Matrix {
 		},
 	}
 
-	return u.PopulateNewMat(MPconf)
+	return u.PopulateNewMat(MPconf), nil
 }

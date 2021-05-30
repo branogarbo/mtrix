@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
 package transpose
 
 import (
@@ -27,16 +28,15 @@ func TestMatTrans(t *testing.T) {
 		mat u.Matrix
 	}
 	tests := []struct {
-		name string
-		args args
-		want u.Matrix
+		name    string
+		args    args
+		want    u.Matrix
+		wantErr bool
 	}{
 		{
 			name: "transpose test",
 			args: args{
 				mat: u.Matrix{
-					RowsNum: 4,
-					ColsNum: 4,
 					Value: u.MatVal{
 						{1, 2, 3, 4},
 						{5, 6, 7, 8},
@@ -55,13 +55,12 @@ func TestMatTrans(t *testing.T) {
 					{4, 8, 12, 16},
 				},
 			},
+			wantErr: false,
 		},
 		{
 			name: "mismatch size trans",
 			args: args{
 				mat: u.Matrix{
-					RowsNum: 2,
-					ColsNum: 3,
 					Value: u.MatVal{
 						{1, 2, 3},
 						{5, 6, 7},
@@ -77,11 +76,17 @@ func TestMatTrans(t *testing.T) {
 					{3, 7},
 				},
 			},
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := MatTrans(tt.args.mat); !reflect.DeepEqual(got, tt.want) {
+			got, err := MatTrans(tt.args.mat)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("MatTrans() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("MatTrans() = %v, want %v", got, tt.want)
 			}
 		})

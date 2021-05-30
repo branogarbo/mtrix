@@ -37,8 +37,6 @@ func TestMatPow(t *testing.T) {
 			name: "working",
 			args: args{
 				mat: u.Matrix{
-					RowsNum: 3,
-					ColsNum: 3,
 					Value: u.MatVal{
 						{1, 2, -3.9},
 						{4.3, 5, 6},
@@ -62,8 +60,6 @@ func TestMatPow(t *testing.T) {
 			name: "size error",
 			args: args{
 				mat: u.Matrix{
-					RowsNum: 2,
-					ColsNum: 3,
 					Value: u.MatVal{
 						{1, 2, 3},
 						{1, 2, 3},

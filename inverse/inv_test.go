@@ -20,8 +20,6 @@ func TestMatInv(t *testing.T) {
 		{
 			name: "2x2, working",
 			args: args{u.Matrix{
-				RowsNum: 2,
-				ColsNum: 2,
 				Value: u.MatVal{
 					{5, -1},
 					{5, 1},
@@ -40,8 +38,6 @@ func TestMatInv(t *testing.T) {
 		{
 			name: "2x2, singular, error",
 			args: args{u.Matrix{
-				RowsNum: 2,
-				ColsNum: 2,
 				Value: u.MatVal{
 					{5, 1},
 					{5, 1},
@@ -53,8 +49,6 @@ func TestMatInv(t *testing.T) {
 		{
 			name: "3x3, working",
 			args: args{u.Matrix{
-				RowsNum: 3,
-				ColsNum: 3,
 				Value: u.MatVal{
 					{1, 0, 0},
 					{0, 1, 0},
@@ -75,8 +69,6 @@ func TestMatInv(t *testing.T) {
 		{
 			name: "3x3, working",
 			args: args{u.Matrix{
-				RowsNum: 3,
-				ColsNum: 3,
 				Value: u.MatVal{
 					{3, 0, 2},
 					{2, 0, -2},
@@ -97,8 +89,6 @@ func TestMatInv(t *testing.T) {
 		{
 			name: "3x3, working",
 			args: args{u.Matrix{
-				RowsNum: 3,
-				ColsNum: 3,
 				Value: u.MatVal{
 					{1, 2, 3},
 					{0, 1, 4},

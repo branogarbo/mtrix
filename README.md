@@ -68,8 +68,6 @@ import (
 
 func main() {
 	mat1 := u.Matrix{
-		RowsNum: 3,
-		ColsNum: 3,
 		Value: u.MatVal{
 			{1, -4, 9},
 			{2.7, 3, 7},
@@ -78,8 +76,6 @@ func main() {
 	}
 
 	mat2 := u.Matrix{
-		RowsNum: 3,
-		ColsNum: 3,
 		Value: u.MatVal{
 			{1, 1, 1},
 			{1, 1, 1},
@@ -109,8 +105,6 @@ import (
 
 func main() {
 	mat1 := u.Matrix{
-		RowsNum: 3,
-		ColsNum: 2,
 		Value: u.MatVal{
 			{1, -4},
 			{2.7, 3},
@@ -119,8 +113,6 @@ func main() {
 	}
 
 	mat2 := u.Matrix{
-		RowsNum: 2,
-		ColsNum: 2,
 		Value: u.MatVal{
 			{1, 0},
 			{0, 1},
