@@ -209,7 +209,7 @@ func TestGetMatsFromFiles(t *testing.T) {
 		{
 			name: "parse matrix files test",
 			args: args{
-				paths: []string{"../sampleMats/2square1.txt", "../sampleMats/3square2.txt", "../sampleMats/2x3_1.txt"},
+				paths: []string{"../sampleMats/2x2_1.txt", "../sampleMats/3x3_2.txt", "../sampleMats/2x3_1.txt"},
 			},
 			want: []Matrix{
 				{
