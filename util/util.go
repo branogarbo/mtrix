@@ -171,11 +171,12 @@ func MatToString(mat Matrix) string {
 	return matStr
 }
 
-// PrintMat prints mat to the command line.
-func PrintMat(mat Matrix) {
+// PrintMat prints mat to the command line. Returns the
+// number of bytes written and any write error encountered.
+func PrintMat(mat Matrix) (n int, err error) {
 	matStr := MatToString(mat)
 
-	fmt.Print(matStr)
+	return fmt.Print(matStr)
 }
 
 // InitMat creates a zero matrix with the passed size. Main purpose
