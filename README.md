@@ -1,5 +1,5 @@
 # 🔮 **mtrix**
-**A tool for performing basic matrix operations.**
+**A simple command line matrix calculator.**
 
 ---
 
@@ -20,7 +20,7 @@ Or get the pre-compiled binaries for your platform on the [releases page](https:
 ```
 mtrix
 
-A tool for performing basic matrix operations.
+A simple command line matrix calculator.
 
 Usage:
   mtrix [command]

@@ -23,7 +23,7 @@ var isRaw bool
 
 var rootCmd = &cobra.Command{
 	Use:   "mtrix",
-	Short: "A tool for performing basic matrix operations.",
+	Short: "A simple command line matrix calculator.",
 }
 
 func Execute() {
