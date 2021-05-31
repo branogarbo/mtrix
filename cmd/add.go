@@ -9,8 +9,8 @@ import (
 var addCmd = &cobra.Command{
 	Use:     "add",
 	Aliases: []string{"+", "a"},
-	Example: "mtrix add mat1.txt mat2.txt",
-	Short:   "Get the sum of two matrices",
+	Example: "mtrix add mat1.txt mat2.txt mat3.txt",
+	Short:   "Get the sum of matrices",
 	Args:    cobra.MinimumNArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		mats, err := u.ParseCmdArgs(cmd, args)

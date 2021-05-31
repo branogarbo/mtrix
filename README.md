@@ -26,7 +26,7 @@ Usage:
   mtrix [command]
 
 Available Commands:
-  add         Get the sum of two matrices
+  add         Get the sum of matrices
   det         Compute the determinant of a matrix
   help        Help about any command
   inv         Get the inverse of a matrix
