@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/spf13/cobra"
 )
@@ -134,6 +135,7 @@ func CheckMatSizes(mats ...Matrix) error {
 // performed on each element of the passed matrices and configurations.
 func PopulateNewMat(c MatPopConfig) Matrix {
 	var (
+		wg        sync.WaitGroup
 		argMvs    []MatVal
 		resultMat = InitMat(c.NewRows, c.NewCols)
 	)
@@ -144,11 +146,18 @@ func PopulateNewMat(c MatPopConfig) Matrix {
 		argMvs = append(argMvs, m.Value)
 	}
 
+	wg.Add(c.NewRows)
+
 	for rn, row := range resultMat.Value {
-		for cn := range row {
-			resultMat.Value[rn][cn] = c.Action(c.MainMat.Value, rn, cn, argMvs[1:])
-		}
+		go func(rn int, row Row) {
+			for cn := range row {
+				resultMat.Value[rn][cn] = c.Action(c.MainMat.Value, rn, cn, argMvs[1:])
+			}
+			wg.Done()
+		}(rn, row)
 	}
+
+	wg.Wait()
 
 	return resultMat
 }
