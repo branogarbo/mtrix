@@ -19,8 +19,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var isRaw bool
-
 var rootCmd = &cobra.Command{
 	Use:   "mtrix",
 	Short: "A simple command line matrix calculator.",
@@ -31,5 +29,5 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().BoolVarP(&isRaw, "raw-input", "r", false, "whether or not the command takes matrices as strings")
+	rootCmd.PersistentFlags().BoolP("raw-input", "r", false, "whether or not the command takes matrices as strings")
 }
