@@ -30,8 +30,6 @@ func ScalarMult(s float64, mat u.Matrix) u.Matrix {
 
 	MPconf := u.MatPopConfig{
 		MainMat: mat,
-		NewRows: mat.RowsNum,
-		NewCols: mat.ColsNum,
 		Action: func(mv u.MatVal, r, c int, secMvs []u.MatVal) float64 {
 			return mv[r][c] * s
 		},

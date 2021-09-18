@@ -45,8 +45,6 @@ func MatAdd(mats ...u.Matrix) (u.Matrix, error) {
 	MPconf := u.MatPopConfig{
 		MainMat: mats[0],
 		SecMats: mats[1:],
-		NewRows: mats[0].RowsNum,
-		NewCols: mats[0].ColsNum,
 		Action: func(mv u.MatVal, r, c int, secMats []u.MatVal) float64 {
 			elSum := mv[r][c]
 

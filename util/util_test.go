@@ -269,10 +269,9 @@ func TestPopulateNewMat(t *testing.T) {
 			args: args{
 				c: MatPopConfig{
 					MainMat: Matrix{
-						RowsNum: 3,
+						RowsNum: 2,
 						ColsNum: 3,
 						Value: MatVal{
-							{2, 2, 2},
 							{2, 2, 2},
 							{2, 2, 2},
 						},
@@ -280,16 +279,13 @@ func TestPopulateNewMat(t *testing.T) {
 					SecMats: []Matrix{
 						{
 							RowsNum: 3,
-							ColsNum: 3,
+							ColsNum: 2,
 							Value: MatVal{
-								{1, 1, 1},
 								{1, 1, 1},
 								{1, 1, 1},
 							},
 						},
 					},
-					NewRows: 3,
-					NewCols: 3,
 					Action: func(mv1 MatVal, r, c int, secMvs []MatVal) float64 {
 						mv2 := secMvs[0]
 
@@ -298,10 +294,9 @@ func TestPopulateNewMat(t *testing.T) {
 				},
 			},
 			want: Matrix{
-				RowsNum: 3,
+				RowsNum: 2,
 				ColsNum: 3,
 				Value: MatVal{
-					{3, 3, 3},
 					{3, 3, 3},
 					{3, 3, 3},
 				},

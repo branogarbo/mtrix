@@ -133,7 +133,14 @@ func CheckMatSizes(mats ...Matrix) error {
 
 // PopulateNewMat creates and fills a new matrix according to the action
 // performed on each element of the passed matrices and configurations.
+// Omit NewRows and NewCols fields in c if you want them to be the same as
+// the rows and cols of MainMat.
 func PopulateNewMat(c MatPopConfig) Matrix {
+	if c.NewRows == 0 && c.NewCols == 0 {
+		c.NewRows = c.MainMat.RowsNum
+		c.NewCols = c.MainMat.ColsNum
+	}
+
 	var (
 		wg        sync.WaitGroup
 		argMvs    []MatVal
@@ -188,7 +195,7 @@ func PrintMat(mat Matrix) (n int, err error) {
 	return fmt.Print(matStr)
 }
 
-// InitMat creates a zero matrix with the passed size. Main purpose
+// InitMat creates an empty matrix with the passed size. Main purpose
 // is to init matrix that can later be populated with PopulateNewMat.
 func InitMat(rows, cols int) Matrix {
 	resultMat := Matrix{
@@ -196,13 +203,13 @@ func InitMat(rows, cols int) Matrix {
 		ColsNum: cols,
 	}
 
-	for i := 0; i < rows; i++ {
-		row := Row{}
-		for i := 0; i < cols; i++ {
-			row = append(row, 0)
-		}
-		resultMat.Value = append(resultMat.Value, row)
+	mv := make(MatVal, rows)
+
+	for r := 0; r < rows; r++ {
+		mv[r] = make(Row, cols)
 	}
+
+	resultMat.Value = mv
 
 	return resultMat
 }

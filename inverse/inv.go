@@ -57,8 +57,6 @@ func MatInv(m u.Matrix) (u.Matrix, error) {
 	// matrix of minors
 	resultMat = u.PopulateNewMat(u.MatPopConfig{
 		MainMat: m,
-		NewRows: m.RowsNum,
-		NewCols: m.ColsNum,
 		Action: func(mv u.MatVal, r, c int, secMvs []u.MatVal) float64 {
 			minor := u.GetMinor(m, r, c)
 			detMinor, _ := det.MatDet(minor) // add error handling in the future
