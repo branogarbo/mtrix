@@ -27,6 +27,7 @@ Usage:
 
 Available Commands:
   add         Get the sum of matrices
+  completion  generate the autocompletion script for the specified shell
   det         Compute the determinant of a matrix
   help        Help about any command
   inv         Get the inverse of a matrix
@@ -39,6 +40,7 @@ Available Commands:
 Flags:
   -h, --help        help for mtrix
   -r, --raw-input   whether or not the command takes matrices as strings
+  -v, --version     version for mtrix
 
 Use "mtrix [command] --help" for more information about a command.
 ```

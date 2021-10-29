@@ -20,8 +20,9 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "mtrix",
-	Short: "A simple command line matrix calculator.",
+	Use:     "mtrix",
+	Version: "v1.11.0",
+	Short:   "A simple command line matrix calculator.",
 }
 
 func Execute() {
