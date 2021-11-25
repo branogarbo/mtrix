@@ -226,10 +226,12 @@ func GetMinor(m Matrix, row, c int) Matrix {
 	return minor
 }
 
+// Get the number of rows of m.
 func (m Matrix) Rows() int {
 	return len(m)
 }
 
+// Get the number of columns of m.
 func (m Matrix) Cols() int {
 	return len(m[0])
 }
