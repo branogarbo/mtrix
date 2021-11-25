@@ -21,7 +21,7 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:     "mtrix",
-	Version: "v1.11.0",
+	Version: "v1.12.0",
 	Short:   "A simple command line matrix calculator.",
 }
 
