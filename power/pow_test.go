@@ -22,22 +22,16 @@ func TestMatPow(t *testing.T) {
 			name: "working",
 			args: args{
 				mat: u.Matrix{
-					Value: u.MatVal{
-						{1, 2, -3.9},
-						{4.3, 5, 6},
-						{5, -3, 4},
-					},
+					{1, 2, -3.9},
+					{4.3, 5, 6},
+					{5, -3, 4},
 				},
 				x: 2,
 			},
 			want: u.Matrix{
-				RowsNum: 3,
-				ColsNum: 3,
-				Value: u.MatVal{
-					{-9.9, 23.7, -7.5},
-					{55.8, 15.600000000000001, 37.230000000000004},
-					{12.100000000000001, -17, -21.5},
-				},
+				{-9.9, 23.7, -7.5},
+				{55.8, 15.600000000000001, 37.230000000000004},
+				{12.100000000000001, -17, -21.5},
 			},
 			wantErr: false,
 		},
@@ -45,10 +39,8 @@ func TestMatPow(t *testing.T) {
 			name: "size error",
 			args: args{
 				mat: u.Matrix{
-					Value: u.MatVal{
-						{1, 2, 3},
-						{1, 2, 3},
-					},
+					{1, 2, 3},
+					{1, 2, 3},
 				},
 			},
 			want:    u.Matrix{},

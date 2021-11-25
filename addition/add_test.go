@@ -22,29 +22,21 @@ func TestMatAdd(t *testing.T) {
 			args: args{
 				mats: []u.Matrix{
 					{
-						Value: u.MatVal{
-							{1, 2, 3},
-							{4, 5, 6},
-							{7, 8, 9},
-						},
+						{1, 2, 3},
+						{4, 5, 6},
+						{7, 8, 9},
 					},
 					{
-						Value: u.MatVal{
-							{1, 1, 1},
-							{1, 1, 1},
-							{1, 1, 1},
-						},
+						{1, 1, 1},
+						{1, 1, 1},
+						{1, 1, 1},
 					},
 				},
 			},
 			want: u.Matrix{
-				RowsNum: 3,
-				ColsNum: 3,
-				Value: u.MatVal{
-					{2, 3, 4},
-					{5, 6, 7},
-					{8, 9, 10},
-				},
+				{2, 3, 4},
+				{5, 6, 7},
+				{8, 9, 10},
 			},
 			wantErr: false,
 		},
@@ -53,23 +45,17 @@ func TestMatAdd(t *testing.T) {
 			args: args{
 				mats: []u.Matrix{
 					{
-						Value: u.MatVal{
-							{1, 2, 3},
-							{4, 5, 6},
-							{7, 8, 9},
-						},
+						{1, 2, 3},
+						{4, 5, 6},
+						{7, 8, 9},
 					},
 					{
-						Value: u.MatVal{
-							{1, 1},
-							{1, 1},
-						},
+						{1, 1},
+						{1, 1},
 					},
 					{
-						Value: u.MatVal{
-							{1, 1, 1},
-							{1, 1, 1},
-						},
+						{1, 1, 1},
+						{1, 1, 1},
 					},
 				},
 			},

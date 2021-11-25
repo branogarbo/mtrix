@@ -23,14 +23,9 @@ import (
 
 // ScalarMult multiplies the matrix mat by the scalar s.
 func ScalarMult(s float64, mat u.Matrix) u.Matrix {
-	err := mat.SetSize()
-	if err != nil {
-		return u.Matrix{}
-	}
-
 	MPconf := u.MatPopConfig{
 		MainMat: mat,
-		Action: func(mv u.MatVal, r, c int, secMvs []u.MatVal) float64 {
+		Action: func(mv u.Matrix, r, c int, secMvs []u.Matrix) float64 {
 			return mv[r][c] * s
 		},
 	}
@@ -57,35 +52,26 @@ func MatMult(mats ...u.Matrix) (u.Matrix, error) {
 
 // UnitMatMult multiplies two matrices together.
 func UnitMatMult(m1, m2 u.Matrix) (u.Matrix, error) {
-	err := m1.SetSize()
-	if err != nil {
-		return u.Matrix{}, err
-	}
-	err = m2.SetSize()
-	if err != nil {
-		return u.Matrix{}, err
-	}
-
 	if !u.IsMultPossible(m1, m2) {
 		return u.Matrix{}, errors.New("matrix multiplication not possible")
 	}
 
 	MPconf := u.MatPopConfig{
 		MainMat: m1,
-		NewRows: m1.RowsNum,
-		NewCols: m2.ColsNum,
-		Action: func(mv1 u.MatVal, r, c int, secMvs []u.MatVal) float64 {
+		NewRows: m1.Rows(),
+		NewCols: m2.Cols(),
+		Action: func(mv1 u.Matrix, r, c int, secMvs []u.Matrix) float64 {
 			var (
 				newEl   float64
-				m1ElRow = m1.Value[r]
+				m1ElRow = m1[r]
 				m2ElCol []float64
 			)
 
-			for _, row := range m2.Value {
+			for _, row := range m2 {
 				m2ElCol = append(m2ElCol, row[c])
 			}
 
-			for i := 0; i < m1.ColsNum; i++ {
+			for i := 0; i < m1.Cols(); i++ {
 				newEl += m1ElRow[i] * m2ElCol[i]
 			}
 

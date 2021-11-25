@@ -24,25 +24,17 @@ import (
 
 // MatDet returns the determinant of m.
 func MatDet(m u.Matrix) (float64, error) {
-	var (
-		det float64
-		mv  = m.Value
-	)
+	var det float64
 
-	err := m.SetSize()
-	if err != nil {
-		return 0, err
-	}
-
-	if m.RowsNum != m.ColsNum {
+	if m.Rows() != m.Cols() {
 		return 0, errors.New("argument is not a square matrix")
 	}
 
-	if m.RowsNum == 2 {
-		return mv[0][0]*mv[1][1] - mv[0][1]*mv[1][0], nil
+	if m.Rows() == 2 {
+		return m[0][0]*m[1][1] - m[0][1]*m[1][0], nil
 	}
 
-	for c, elVal := range mv[0] {
+	for c, elVal := range m[0] {
 		minor := u.GetMinor(m, 0, c)
 
 		minorDet, err := MatDet(minor)

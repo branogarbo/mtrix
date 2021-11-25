@@ -19,21 +19,13 @@ func TestIsMultPossible(t *testing.T) {
 			name: "not possible",
 			args: args{
 				m1: Matrix{
-					RowsNum: 3,
-					ColsNum: 3,
-					Value: MatVal{
-						{1, 1, 1},
-						{1, 1, 1},
-						{1, 1, 1},
-					},
+					{1, 1, 1},
+					{1, 1, 1},
+					{1, 1, 1},
 				},
 				m2: Matrix{
-					RowsNum: 2,
-					ColsNum: 3,
-					Value: MatVal{
-						{1, 1, 1},
-						{1, 1, 1},
-					},
+					{1, 1, 1},
+					{1, 1, 1},
 				},
 			},
 			want: false,
@@ -42,22 +34,14 @@ func TestIsMultPossible(t *testing.T) {
 			name: "possible",
 			args: args{
 				m1: Matrix{
-					RowsNum: 3,
-					ColsNum: 3,
-					Value: MatVal{
-						{1, 1, 1},
-						{1, 1, 1},
-						{1, 1, 1},
-					},
+					{1, 1, 1},
+					{1, 1, 1},
+					{1, 1, 1},
 				},
 				m2: Matrix{
-					RowsNum: 3,
-					ColsNum: 4,
-					Value: MatVal{
-						{1, 1, 1, 1},
-						{1, 1, 1, 1},
-						{1, 1, 1, 1},
-					},
+					{1, 1, 1, 1},
+					{1, 1, 1, 1},
+					{1, 1, 1, 1},
 				},
 			},
 			want: true,
@@ -67,55 +51,6 @@ func TestIsMultPossible(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := IsMultPossible(tt.args.m1, tt.args.m2); got != tt.want {
 				t.Errorf("IsMultPossible() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestIsMatrixValid(t *testing.T) {
-	type args struct {
-		m Matrix
-	}
-	tests := []struct {
-		name string
-		args args
-		want bool
-	}{
-		{
-			name: "invalid",
-			args: args{
-				m: Matrix{
-					RowsNum: 3,
-					ColsNum: 4,
-					Value: MatVal{
-						{1, 1, 1, 1},
-						{1, 1, 1, 1},
-						{1, 1, 1},
-					},
-				},
-			},
-			want: false,
-		},
-		{
-			name: "valid",
-			args: args{
-				m: Matrix{
-					RowsNum: 3,
-					ColsNum: 4,
-					Value: MatVal{
-						{1, 1, 1, 1},
-						{1, 1, 1, 1},
-						{1, 1, 1, 1},
-					},
-				},
-			},
-			want: true,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := IsMatrixValid(tt.args.m); got != tt.want {
-				t.Errorf("IsMatrixValid() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -135,16 +70,16 @@ func TestCheckMatsSizes(t *testing.T) {
 			args: args{
 				mats: []Matrix{
 					{
-						RowsNum: 3,
-						ColsNum: 4,
+						{0, 0, 0},
+						{0, 0, 0},
 					},
 					{
-						RowsNum: 3,
-						ColsNum: 4,
+						{0, 0, 0},
+						{0, 0, 0},
 					},
 					{
-						RowsNum: 3,
-						ColsNum: 4,
+						{0, 0, 0},
+						{0, 0, 0},
 					},
 				},
 			},
@@ -155,20 +90,17 @@ func TestCheckMatsSizes(t *testing.T) {
 			args: args{
 				mats: []Matrix{
 					{
-						RowsNum: 3,
-						ColsNum: 3,
+						{0, 0, 0},
+						{0, 0, 0},
+						{0, 0, 0},
 					},
 					{
-						RowsNum: 2,
-						ColsNum: 2,
+						{0, 0, 0},
+						{0, 0, 0},
 					},
 					{
-						RowsNum: 2,
-						ColsNum: 2,
-					},
-					{
-						RowsNum: 3,
-						ColsNum: 7,
+						{0, 0, 0},
+						{0, 0, 0},
 					},
 				},
 			},
@@ -179,8 +111,8 @@ func TestCheckMatsSizes(t *testing.T) {
 			args: args{
 				mats: []Matrix{
 					{
-						RowsNum: 1,
-						ColsNum: 3,
+						{0, 0, 0},
+						{0, 0, 0},
 					},
 				},
 			},
@@ -213,29 +145,17 @@ func TestGetMatsFromFiles(t *testing.T) {
 			},
 			want: []Matrix{
 				{
-					RowsNum: 2,
-					ColsNum: 2,
-					Value: MatVal{
-						{1, 2},
-						{3, -5},
-					},
+					{1, 2},
+					{3, -5},
 				},
 				{
-					RowsNum: 3,
-					ColsNum: 3,
-					Value: MatVal{
-						{2, 2, 2},
-						{2, 2, 2},
-						{2, 2, 2},
-					},
+					{2, 2, 2},
+					{2, 2, 2},
+					{2, 2, 2},
 				},
 				{
-					RowsNum: 2,
-					ColsNum: 3,
-					Value: MatVal{
-						{2, 3, 4},
-						{-1, 4, 3},
-					},
+					{2, 3, 4},
+					{-1, 4, 3},
 				},
 			},
 			wantErr: false,
@@ -269,37 +189,25 @@ func TestPopulateNewMat(t *testing.T) {
 			args: args{
 				c: MatPopConfig{
 					MainMat: Matrix{
-						RowsNum: 2,
-						ColsNum: 3,
-						Value: MatVal{
-							{2, 2, 2},
-							{2, 2, 2},
-						},
+						{2, 2, 2},
+						{2, 2, 2},
 					},
 					SecMats: []Matrix{
 						{
-							RowsNum: 3,
-							ColsNum: 2,
-							Value: MatVal{
-								{1, 1, 1},
-								{1, 1, 1},
-							},
+							{1, 1, 1},
+							{1, 1, 1},
 						},
 					},
-					Action: func(mv1 MatVal, r, c int, secMvs []MatVal) float64 {
-						mv2 := secMvs[0]
+					Action: func(m1 Matrix, r, c int, secMs []Matrix) float64 {
+						mv2 := secMs[0]
 
-						return mv1[r][c] + mv2[r][c]
+						return m1[r][c] + mv2[r][c]
 					},
 				},
 			},
 			want: Matrix{
-				RowsNum: 2,
-				ColsNum: 3,
-				Value: MatVal{
-					{3, 3, 3},
-					{3, 3, 3},
-				},
+				{3, 3, 3},
+				{3, 3, 3},
 			},
 		},
 	}
@@ -329,12 +237,8 @@ func TestInitMat(t *testing.T) {
 				cols: 3,
 			},
 			want: Matrix{
-				RowsNum: 2,
-				ColsNum: 3,
-				Value: MatVal{
-					{0, 0, 0},
-					{0, 0, 0},
-				},
+				{0, 0, 0},
+				{0, 0, 0},
 			},
 		},
 	}
@@ -360,13 +264,9 @@ func TestMakeIdentityMat(t *testing.T) {
 			name: "3x3 working",
 			args: args{3},
 			want: Matrix{
-				RowsNum: 3,
-				ColsNum: 3,
-				Value: MatVal{
-					{1, 0, 0},
-					{0, 1, 0},
-					{0, 0, 1},
-				},
+				{1, 0, 0},
+				{0, 1, 0},
+				{0, 0, 1},
 			},
 		},
 	}
@@ -394,48 +294,32 @@ func TestGetMinor(t *testing.T) {
 			name: "working",
 			args: args{
 				m: Matrix{
-					RowsNum: 3,
-					ColsNum: 3,
-					Value: MatVal{
-						{1, -4, 2},
-						{0, 6, -7},
-						{5, 8, 0},
-					},
+					{1, -4, 2},
+					{0, 6, -7},
+					{5, 8, 0},
 				},
 				row: 0,
 				c:   1,
 			},
 			want: Matrix{
-				RowsNum: 2,
-				ColsNum: 2,
-				Value: MatVal{
-					{0, -7},
-					{5, 0},
-				},
+				{0, -7},
+				{5, 0},
 			},
 		},
 		{
 			name: "working",
 			args: args{
 				m: Matrix{
-					RowsNum: 3,
-					ColsNum: 3,
-					Value: MatVal{
-						{1, -4, 2},
-						{0, 6, -7},
-						{5, 8, 0},
-					},
+					{1, -4, 2},
+					{0, 6, -7},
+					{5, 8, 0},
 				},
 				row: 0,
 				c:   2,
 			},
 			want: Matrix{
-				RowsNum: 2,
-				ColsNum: 2,
-				Value: MatVal{
-					{0, 6},
-					{5, 8},
-				},
+				{0, 6},
+				{5, 8},
 			},
 		},
 	}

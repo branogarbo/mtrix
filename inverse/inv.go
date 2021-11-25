@@ -28,25 +28,17 @@ import (
 // MatInv returns the inverse of m.
 func MatInv(m u.Matrix) (u.Matrix, error) {
 	var (
-		err       = m.SetSize()
 		resultMat u.Matrix
-		mv        = m.Value
+		err       error
 	)
-	if err != nil {
-		return u.Matrix{}, err
-	}
 
-	if m.ColsNum == 2 && m.RowsNum == 2 {
+	if m.Cols() == 2 && m.Rows() == 2 {
 		nm := u.Matrix{
-			RowsNum: 2,
-			ColsNum: 2,
-			Value: u.MatVal{
-				{mv[1][1], -mv[0][1]},
-				{-mv[1][0], mv[0][0]},
-			},
+			{m[1][1], -m[0][1]},
+			{-m[1][0], m[0][0]},
 		}
 
-		detM := mv[0][0]*mv[1][1] - mv[0][1]*mv[1][0]
+		detM := m[0][0]*m[1][1] - m[0][1]*m[1][0]
 		if detM == 0 {
 			return u.Matrix{}, errors.New("matrix is singular, does not have an inverse")
 		}
@@ -57,7 +49,7 @@ func MatInv(m u.Matrix) (u.Matrix, error) {
 	// matrix of minors
 	resultMat = u.PopulateNewMat(u.MatPopConfig{
 		MainMat: m,
-		Action: func(mv u.MatVal, r, c int, secMvs []u.MatVal) float64 {
+		Action: func(m u.Matrix, r, c int, secMs []u.Matrix) float64 {
 			minor := u.GetMinor(m, r, c)
 			detMinor, _ := det.MatDet(minor) // add error handling in the future
 
@@ -65,10 +57,7 @@ func MatInv(m u.Matrix) (u.Matrix, error) {
 		},
 	})
 
-	resultMat, err = trans.MatTrans(resultMat)
-	if err != nil {
-		return u.Matrix{}, err
-	}
+	resultMat = trans.MatTrans(resultMat)
 
 	detM, err := det.MatDet(m)
 	if err != nil {

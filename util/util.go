@@ -11,22 +11,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// IsMatrixValid checks if m is missing any elements.
-func IsMatrixValid(m Matrix) bool {
-	mv := m.Value
-
-	for i := 1; i < len(mv); i++ {
-		if len(mv[i]) != len(mv[i-1]) {
-			return false
-		}
-	}
-
-	return true
-}
-
 // IsMultPossible checks if multiplication between m1 and m2 is possible.
 func IsMultPossible(m1, m2 Matrix) bool {
-	return m1.ColsNum == m2.RowsNum
+	return m1.Cols() == m2.Rows()
 }
 
 // GetMatFromFile returns a matrix from a matrix file.
@@ -45,7 +32,6 @@ func StringToMat(ms string) (Matrix, error) {
 		matStr  = strings.ReplaceAll(strings.TrimSpace(ms), "\r", "")
 		rowStrs = strings.Split(matStr, "\n")
 		matrix  = Matrix{}
-		err     error
 	)
 
 	for _, rowStr := range rowStrs {
@@ -61,12 +47,7 @@ func StringToMat(ms string) (Matrix, error) {
 			row = append(row, elFloat)
 		}
 
-		matrix.Value = append(matrix.Value, row)
-	}
-
-	err = matrix.SetSize()
-	if err != nil {
-		return Matrix{}, err
+		matrix = append(matrix, row)
 	}
 
 	return matrix, nil
@@ -105,17 +86,6 @@ func GetMatsFromFiles(paths []string) ([]Matrix, error) {
 	return mats, nil
 }
 
-// CheckMats checks if any mats are missing elements.
-func CheckMats(mats ...Matrix) error {
-	for _, m := range mats {
-		if !IsMatrixValid(m) {
-			return errors.New("invalid matrix passed")
-		}
-	}
-
-	return nil
-}
-
 // CheckMatSizes checks if all mats are the same size.
 func CheckMatSizes(mats ...Matrix) error {
 	if len(mats) <= 1 {
@@ -123,7 +93,7 @@ func CheckMatSizes(mats ...Matrix) error {
 	}
 
 	for i := 1; i < len(mats); i++ {
-		if !((mats[i].RowsNum == mats[i-1].RowsNum) && (mats[i].ColsNum == mats[i-1].ColsNum)) {
+		if !((mats[i].Rows() == mats[i-1].Rows()) && (mats[i].Cols() == mats[i-1].Cols())) {
 			return errors.New("matrices are not the same size")
 		}
 	}
@@ -137,28 +107,25 @@ func CheckMatSizes(mats ...Matrix) error {
 // the rows and cols of MainMat.
 func PopulateNewMat(c MatPopConfig) Matrix {
 	if c.NewRows == 0 && c.NewCols == 0 {
-		c.NewRows = c.MainMat.RowsNum
-		c.NewCols = c.MainMat.ColsNum
+		c.NewRows = c.MainMat.Rows()
+		c.NewCols = c.MainMat.Cols()
 	}
 
 	var (
 		wg        sync.WaitGroup
-		argMvs    []MatVal
+		argMs     []Matrix
 		resultMat = InitMat(c.NewRows, c.NewCols)
 	)
 
-	argMvs = append(argMvs, c.MainMat.Value)
-
-	for _, m := range c.SecMats {
-		argMvs = append(argMvs, m.Value)
-	}
+	argMs = append(argMs, c.MainMat)
+	argMs = append(argMs, c.SecMats...)
 
 	wg.Add(c.NewRows)
 
-	for rn, row := range resultMat.Value {
+	for rn, row := range resultMat {
 		go func(rn int, row Row) {
 			for cn := range row {
-				resultMat.Value[rn][cn] = c.Action(c.MainMat.Value, rn, cn, argMvs[1:])
+				resultMat[rn][cn] = c.Action(c.MainMat, rn, cn, argMs[1:])
 			}
 			wg.Done()
 		}(rn, row)
@@ -173,7 +140,7 @@ func PopulateNewMat(c MatPopConfig) Matrix {
 func MatToString(mat Matrix) string {
 	var matStr string
 
-	for _, row := range mat.Value {
+	for _, row := range mat {
 		for c, el := range row {
 			matStr += fmt.Sprint(el)
 
@@ -198,20 +165,13 @@ func PrintMat(mat Matrix) (n int, err error) {
 // InitMat creates an empty matrix with the passed size. Main purpose
 // is to init matrix that can later be populated with PopulateNewMat.
 func InitMat(rows, cols int) Matrix {
-	resultMat := Matrix{
-		RowsNum: rows,
-		ColsNum: cols,
-	}
-
-	mv := make(MatVal, rows)
+	m := make(Matrix, rows)
 
 	for r := 0; r < rows; r++ {
-		mv[r] = make(Row, cols)
+		m[r] = make(Row, cols)
 	}
 
-	resultMat.Value = mv
-
-	return resultMat
+	return m
 }
 
 // ParseCmdArgs parses args according to the command raw-input flag.
@@ -239,10 +199,10 @@ func ParseCmdArgs(cmd *cobra.Command, args []string) ([]Matrix, error) {
 func MakeIdentityMat(w int) Matrix {
 	m := InitMat(w, w)
 
-	for r, row := range m.Value {
+	for r, row := range m {
 		for c := range row {
 			if r == c {
-				m.Value[r][c] = 1
+				m[r][c] = 1
 			}
 		}
 	}
@@ -252,48 +212,24 @@ func MakeIdentityMat(w int) Matrix {
 
 // GetMinor returns the minor of m according to row at column c.
 func GetMinor(m Matrix, row, c int) Matrix {
-	newMv := append(MatVal{}, m.Value[:row]...)
-	newMv = append(newMv, m.Value[row+1:]...)
+	newM := append(Matrix{}, m[:row]...)
+	newM = append(newM, m[row+1:]...)
 
-	minor := InitMat(m.RowsNum-1, 0)
-	minor.ColsNum = m.ColsNum - 1
+	minor := InitMat(m.Rows()-1, 0)
+	// minor.ColsNum = m.ColsNum - 1
 
-	for r, row := range newMv {
-		minor.Value[r] = append(minor.Value[r], row[:c]...)
-		minor.Value[r] = append(minor.Value[r], row[c+1:]...)
+	for r, row := range newM {
+		minor[r] = append(minor[r], row[:c]...)
+		minor[r] = append(minor[r], row[c+1:]...)
 	}
 
 	return minor
 }
 
-// SetSize sets RowsNum and ColsNum of m based on its value.
-func (m *Matrix) SetSize() error {
-	err := CheckMats(*m)
-	if err != nil {
-		return err
-	}
-
-	m.RowsNum = len(m.Value)
-	m.ColsNum = len(m.Value[0])
-
-	return nil
+func (m Matrix) Rows() int {
+	return len(m)
 }
 
-// SetSizes sets RowsNum and ColsNum of each matrix in ms based on its value.
-func SetSizes(ms ...Matrix) ([]Matrix, error) {
-	var (
-		mats []Matrix
-		err  error
-	)
-
-	for _, m := range ms {
-		err = m.SetSize()
-		if err != nil {
-			return nil, err
-		}
-
-		mats = append(mats, m)
-	}
-
-	return mats, nil
+func (m Matrix) Cols() int {
+	return len(m[0])
 }

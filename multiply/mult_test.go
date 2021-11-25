@@ -22,19 +22,13 @@ func TestScalarMult(t *testing.T) {
 			args: args{
 				s: -2,
 				mat: u.Matrix{
-					Value: u.MatVal{
-						{1, 1},
-						{1, 1},
-					},
+					{1, 1},
+					{1, 1},
 				},
 			},
 			want: u.Matrix{
-				RowsNum: 2,
-				ColsNum: 2,
-				Value: u.MatVal{
-					{-2, -2},
-					{-2, -2},
-				},
+				{-2, -2},
+				{-2, -2},
 			},
 		},
 	}
@@ -62,25 +56,17 @@ func TestMatMult(t *testing.T) {
 			name: "no error",
 			args: args{
 				m1: u.Matrix{
-					Value: u.MatVal{
-						{2, 3},
-						{3, -5},
-					},
-				},
-				m2: u.Matrix{
-					Value: u.MatVal{
-						{1, 0},
-						{0, 1},
-					},
-				},
-			},
-			want: u.Matrix{
-				RowsNum: 2,
-				ColsNum: 2,
-				Value: u.MatVal{
 					{2, 3},
 					{3, -5},
 				},
+				m2: u.Matrix{
+					{1, 0},
+					{0, 1},
+				},
+			},
+			want: u.Matrix{
+				{2, 3},
+				{3, -5},
 			},
 			wantErr: false,
 		},
@@ -88,28 +74,20 @@ func TestMatMult(t *testing.T) {
 			name: "mismatch sizes",
 			args: args{
 				m1: u.Matrix{
-					Value: u.MatVal{
-						{1, 0, 0},
-						{0, 1, 0},
-						{0, 0, 1},
-					},
+					{1, 0, 0},
+					{0, 1, 0},
+					{0, 0, 1},
 				},
 				m2: u.Matrix{
-					Value: u.MatVal{
-						{2, 3},
-						{0, 1},
-						{3, -4},
-					},
-				},
-			},
-			want: u.Matrix{
-				RowsNum: 3,
-				ColsNum: 2,
-				Value: u.MatVal{
 					{2, 3},
 					{0, 1},
 					{3, -4},
 				},
+			},
+			want: u.Matrix{
+				{2, 3},
+				{0, 1},
+				{3, -4},
 			},
 			wantErr: false,
 		},
@@ -117,17 +95,13 @@ func TestMatMult(t *testing.T) {
 			name: "mismatch sizes error",
 			args: args{
 				m1: u.Matrix{
-					Value: u.MatVal{
-						{1, 0, 0},
-						{0, 1, 0},
-						{0, 0, 1},
-					},
+					{1, 0, 0},
+					{0, 1, 0},
+					{0, 0, 1},
 				},
 				m2: u.Matrix{
-					Value: u.MatVal{
-						{2, 3, 1},
-						{0, 1, -2},
-					},
+					{2, 3, 1},
+					{0, 1, -2},
 				},
 			},
 			want:    u.Matrix{},

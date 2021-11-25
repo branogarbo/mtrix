@@ -18,10 +18,7 @@ var transCmd = &cobra.Command{
 			return err
 		}
 
-		resultMat, err := t.MatTrans(mats[0])
-		if err != nil {
-			return err
-		}
+		resultMat := t.MatTrans(mats[0])
 
 		u.PrintMat(resultMat)
 

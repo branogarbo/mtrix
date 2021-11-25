@@ -22,28 +22,20 @@ func TestMatSub(t *testing.T) {
 			name: "wanted",
 			args: args{
 				m1: u.Matrix{
-					Value: u.MatVal{
-						{3, 3, 3},
-						{3, 3, 3},
-						{3, 3, 3},
-					},
+					{3, 3, 3},
+					{3, 3, 3},
+					{3, 3, 3},
 				},
 				m2: u.Matrix{
-					Value: u.MatVal{
-						{1, 1, 1},
-						{1, 1, 1},
-						{1, 1, 1},
-					},
+					{1, 1, 1},
+					{1, 1, 1},
+					{1, 1, 1},
 				},
 			},
 			want: u.Matrix{
-				RowsNum: 3,
-				ColsNum: 3,
-				Value: u.MatVal{
-					{2, 2, 2},
-					{2, 2, 2},
-					{2, 2, 2},
-				},
+				{2, 2, 2},
+				{2, 2, 2},
+				{2, 2, 2},
 			},
 			wantErr: false,
 		},

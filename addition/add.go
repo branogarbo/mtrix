@@ -32,11 +32,6 @@ func MatAdd(mats ...u.Matrix) (u.Matrix, error) {
 		return u.Matrix{}, errors.New("less than 2 args passed")
 	}
 
-	mats, err = u.SetSizes(mats...)
-	if err != nil {
-		return u.Matrix{}, err
-	}
-
 	err = u.CheckMatSizes(mats...)
 	if err != nil {
 		return u.Matrix{}, err
@@ -45,8 +40,8 @@ func MatAdd(mats ...u.Matrix) (u.Matrix, error) {
 	MPconf := u.MatPopConfig{
 		MainMat: mats[0],
 		SecMats: mats[1:],
-		Action: func(mv u.MatVal, r, c int, secMats []u.MatVal) float64 {
-			elSum := mv[r][c]
+		Action: func(m u.Matrix, r, c int, secMats []u.Matrix) float64 {
+			elSum := m[r][c]
 
 			for _, secMv := range secMats {
 				elSum += secMv[r][c]
