@@ -70,19 +70,15 @@ import (
 
 func main() {
 	mat1 := u.Matrix{
-		Value: u.MatVal{
-			{1, -4, 9},
-			{2.7, 3, 7},
-			{0, -3.3, 8},
-		},
+		{1, -4, 9},
+		{2.7, 3, 7},
+		{0, -3.3, 8},
 	}
 
 	mat2 := u.Matrix{
-		Value: u.MatVal{
-			{1, 1, 1},
-			{1, 1, 1},
-			{1, 1, 1},
-		},
+		{1, 1, 1},
+		{1, 1, 1},
+		{1, 1, 1},
 	}
 
 	resultMat, err := add.MatAdd(mat1, mat2)
@@ -107,18 +103,14 @@ import (
 
 func main() {
 	mat1 := u.Matrix{
-		Value: u.MatVal{
-			{1, -4},
-			{2.7, 3},
-			{0, -3.3},
-		},
+		{1, -4},
+		{2.7, 3},
+		{0, -3.3},
 	}
 
 	mat2 := u.Matrix{
-		Value: u.MatVal{
-			{1, 0},
-			{0, 1},
-		},
+		{1, 0},
+		{0, 1},
 	}
 
 	resultMat, err := mult.MatMult(mat1, mat2)
